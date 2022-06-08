@@ -34,8 +34,10 @@ RUN groupadd -r -g 1000 ubuntu && useradd -r -g ubuntu -u 1000 -G audio,video -m
 
 #COPY local.conf /etc/fonts/local.conf
 WORKDIR /home/ubuntu
-RUN npm install --save puppeteer-core
-RUN npm install nodemon --save-dev
+RUN yarn add puppeteer
+RUN yarn add yargs
+RUN yarn add delay
+
 #COPY package.json /home/ubuntu
 #COPY index.js /home/ubuntu
 #RUN npm i

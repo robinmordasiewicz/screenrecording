@@ -23,3 +23,22 @@ RUN npm install --save puppeteer-core
 npm install --save puppeteer-core
 node index.js 
 exit
+node index.js 
+ls
+ls -al
+ls -al .npm/
+exit
+yarn add puppeteer
+node index.js 
+exit
+node index.js 
+yarn install yargs
+yarn add yargs
+node index.js 
+yarn add puppeteer
+node index.js 
+exit
+node index.js 
+yarn add delay
+node index.js 
+exit
