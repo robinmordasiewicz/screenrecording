@@ -17,3 +17,9 @@ cat package-lock.json
 cat package.json 
 ls -al
 exit
+node index.js 
+cat Dockerfile 
+RUN npm install --save puppeteer-core
+npm install --save puppeteer-core
+node index.js 
+exit

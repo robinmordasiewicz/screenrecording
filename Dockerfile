@@ -32,13 +32,13 @@ RUN usermod -u 1001 node && \
 RUN groupadd -r -g 1000 ubuntu && useradd -r -g ubuntu -u 1000 -G audio,video -m ubuntu \
     && chown -R ubuntu:ubuntu /home/ubuntu
 
-COPY package.json /home/ubuntu
-COPY index.js /home/ubuntu
 #COPY local.conf /etc/fonts/local.conf
 WORKDIR /home/ubuntu
-#RUN npm install --save puppeteer-core
-#RUN npm install nodemon --save-dev
-RUN npm i
+RUN npm install --save puppeteer-core
+RUN npm install nodemon --save-dev
+#COPY package.json /home/ubuntu
+#COPY index.js /home/ubuntu
+#RUN npm i
 
 USER ubuntu
 

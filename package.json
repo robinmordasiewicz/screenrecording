@@ -19,5 +19,8 @@
   "bugs": {
     "url": "https://github.com/robinmordasiewicz/puppeteer/issues"
   },
-  "homepage": "https://github.com/robinmordasiewicz/puppeteer#readme"
+  "homepage": "https://github.com/robinmordasiewicz/puppeteer#readme",
+  "dependencies": {
+    "puppeteer-core": "^14.3.0"
+  }
 }
