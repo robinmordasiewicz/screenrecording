@@ -42,3 +42,19 @@ node index.js
 yarn add delay
 node index.js 
 exit
+node index.js 
+node index.js https://github.com --width 1920 --width 1080 --delay 100 --format png
+exit
+npm install
+exit
+google-chrome
+exit
+node index.js 
+cat README.md 
+node index.js https://github.com --width 1920 --width 1080 --delay 100 --format png
+node index.js https://github.com 
+ls -la
+exit
+cat README.md 
+node index.js https://github.com --width 1920 --height 1080
+exit

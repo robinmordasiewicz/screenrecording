@@ -1,3 +1,14 @@
 .bash_history
 .npm/
 node_modules/
+.cache
+.config
+.local
+.npm
+.pki
+.yarn
+.yarnrc
+package-lock.json
+package.json
+screenshot.png
+yarn.lock
