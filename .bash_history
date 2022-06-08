@@ -1,0 +1,3 @@
+id
+ls -la
+exit
