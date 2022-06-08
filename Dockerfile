@@ -24,6 +24,9 @@ RUN chmod +x /usr/local/bin/dumb-init
 
 ENV PUPPETEER_SKIP_CHROMIUM_DOWNLOAD true
 
+RUN npm install --save puppeteer
+RUN npm install nodemon --save-dev
+
 # COPY . /app/
 #COPY local.conf /etc/fonts/local.conf
 WORKDIR /home/ubuntu
