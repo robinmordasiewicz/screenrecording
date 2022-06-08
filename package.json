@@ -1,16 +1,23 @@
 {
-  "name": "puppeteer",
-  "version": "0.0.0",
-  "private": true,
+  "name": "headless-browser",
+  "version": "1.0.0",
+  "description": "Headless Browser",
+  "main": "index.js",
   "scripts": {
-    "start": "node ./bin/www"
+    "test": "http://www.google.com"
   },
-  "dependencies": {
-    "cookie-parser": "~1.4.4",
-    "debug": "~2.6.9",
-    "express": "~4.16.1",
-    "http-errors": "~1.6.3",
-    "jade": "~1.11.0",
-    "morgan": "~1.9.1"
-  }
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/robinmordasiewicz/puppeteer.git"
+  },
+  "keywords": [
+    "headless",
+    "browser"
+  ],
+  "author": "Robin Mordasiewicz",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/robinmordasiewicz/puppeteer/issues"
+  },
+  "homepage": "https://github.com/robinmordasiewicz/puppeteer#readme"
 }
