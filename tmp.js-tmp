@@ -1,6 +1,5 @@
 const puppeteer = require('puppeteer'); // v13.0.0 or later
 const { PuppeteerScreenRecorder } = require("puppeteer-screen-recorder");
-const {installMouseHelper} = require('./install-mouse-helper');
 
 const Config = {
   followNewTab: true,
@@ -19,7 +18,6 @@ const Config = {
       slowMo: 50 // slow down by ms
     });
     const page = await browser.newPage();
-    await installMouseHelper(page); // Install Mouse Helper
     await page.setViewport({ width: 1920, height: 1080 });
     const timeout = 5000;
     page.setDefaultTimeout(timeout);
@@ -179,19 +177,6 @@ const Config = {
         //await targetPage.goto("http://robin-jenkins.amer.myedgedemo.com:8080/", {"waitUntil" : "networkidle0"});
         await targetPage.goto("http://robin-jenkins.amer.myedgedemo.com:8080/");
         await Promise.all(promises);
-        await page.mouse.move(500, 540);
-        await page.mouse.move(510, 530);
-        await page.mouse.move(520, 520);
-        await page.mouse.move(530, 510);
-        await page.mouse.move(540, 500);
-        await page.mouse.move(550, 490);
-        await page.mouse.move(560, 480);
-        await page.mouse.move(570, 470);
-        await page.mouse.move(580, 460);
-        await page.mouse.move(590, 450);
-        await page.mouse.move(600, 440);
-        await page.mouse.move(610, 430);
-        await page.mouse.move(620, 420);
     }
     {
         const targetPage = page;
@@ -227,18 +212,15 @@ const Config = {
         await scrollIntoViewIfNeeded(element, timeout);
         const type = await element.evaluate(el => el.type);
         if (["textarea","select-one","text","url","tel","search","password","number","email"].includes(type)) {
-          await element.type("mML3XlW2TezKHQjf6t4XVz");
+          await element.type("g6O2EJpUO5nidZaGdT0Bs7");
         } else {
           await element.focus();
           await element.evaluate((el, value) => {
             el.value = value;
             el.dispatchEvent(new Event('input', { bubbles: true }));
             el.dispatchEvent(new Event('change', { bubbles: true }));
-          }, "mML3XlW2TezKHQjf6t4XVz");
+          }, "g6O2EJpUO5nidZaGdT0Bs7");
         }
-        await page.mouse.move(100, 200);
-        await page.mouse.down();
-        await page.mouse.move(500, 250);
         await page.screenshot({
           path: 'screenshot.jpg',
           type: 'jpeg',
@@ -253,11 +235,16 @@ const Config = {
         await element.click({ offset: { x: 149.5, y: 14.6640625} });
     }
     {
-        const targetPage = page;
-        await targetPage.waitForNavigation({waitUntil: 'networkidle2'})
-        await targetPage.screenshot({ path: 'screenshot2.png'})
+        await page.waitForNavigation({waitUntil: 'networkidle2'})
+        await page.screenshot({ path: 'screenshot2.png'})
     }
-/*
+    {
+        const targetPage = page;
+        const promises = [];
+        promises.push(targetPage.waitForNavigation());
+        await targetPage.goto("http://robin-jenkins.amer.myedgedemo.com:8080/");
+        await Promise.all(promises);
+    }
     {
         const targetPage = page;
         const promises = [];
@@ -267,15 +254,89 @@ const Config = {
         await element.click({ offset: { x: 40, y: 8.5} });
         await Promise.all(promises);
     }
-*/
-/*
     {
         const targetPage = page;
-        await targetPage.waitForNavigation({waitUntil: 'networkidle2'})
-        await targetPage.screenshot({ path: 'screenshot3.png'})
+        const promises = [];
+        promises.push(targetPage.waitForNavigation());
+        const element = await waitForSelectors([["#main-panel > section:nth-child(4) > div > div:nth-child(5) > a > dl > dd:nth-child(2)"]], targetPage, { timeout, visible: true });
+        await scrollIntoViewIfNeeded(element, timeout);
+        await element.click({ offset: { x: 49, y: 0.96875} });
+        await Promise.all(promises);
     }
-*/
+    {
+        const targetPage = page;
+        const element = await waitForSelectors([["#main-panel > div > div > div > ul > li"]], targetPage, { timeout, visible: true });
+        await scrollIntoViewIfNeeded(element, timeout);
+        await element.click({ offset: { x: 3, y: 11.6015625} });
+    }
+    {
+        const targetPage = page;
+        await targetPage.keyboard.down("Meta");
+    }
+    {
+        const targetPage = page;
+        await targetPage.keyboard.down("c");
+    }
+    {
+        const targetPage = page;
+        await targetPage.keyboard.up("Meta");
+    }
+    {
+        const targetPage = page;
+        await targetPage.keyboard.up("c");
+    }
+    {
+        const targetPage = page;
+        const element = await waitForSelectors([["#main-panel > div > div > div > form:nth-child(4) > div:nth-child(1) > div.jenkins-form-item.tr > div.setting-main > input"]], targetPage, { timeout, visible: true });
+        await scrollIntoViewIfNeeded(element, timeout);
+        await element.click({ offset: { x: 62, y: 21.0078125} });
+    }
+    {
+        const targetPage = page;
+        const element = await waitForSelectors([["#main-panel > div > div > div > form:nth-child(4) > div:nth-child(1) > div.jenkins-form-item.tr > div.setting-main > input"]], targetPage, { timeout, visible: true });
+        await scrollIntoViewIfNeeded(element, timeout);
+        const type = await element.evaluate(el => el.type);
+        if (["textarea","select-one","text","url","tel","search","password","number","email"].includes(type)) {
+          await element.type("https://robinmordasiewicz.github.io/jcasc/jenkins.yaml");
+        } else {
+          await element.focus();
+          await element.evaluate((el, value) => {
+            el.value = value;
+            el.dispatchEvent(new Event('input', { bubbles: true }));
+            el.dispatchEvent(new Event('change', { bubbles: true }));
+          }, "https://robinmordasiewicz.github.io/jcasc/jenkins.yaml");
+        }
+    }
+    {
+        const targetPage = page;
+        const promises = [];
+        promises.push(targetPage.waitForNavigation());
+        const element = await waitForSelectors([["aria/Apply new configuration"],["#yui-gen1-button"]], targetPage, { timeout, visible: true });
+        await scrollIntoViewIfNeeded(element, timeout);
+        await element.click({ offset: { x: 78, y: 17.0078125} });
+        await Promise.all(promises);
+    }
+    {
+        const targetPage = page;
+        const promises = [];
+        promises.push(targetPage.waitForNavigation());
+        const element = await waitForSelectors([["aria/Apply new configuration"],["#yui-gen1-button"]], targetPage, { timeout, visible: true });
+        await scrollIntoViewIfNeeded(element, timeout);
+        await element.click({ offset: { x: 92, y: 16.0078125} });
+        await Promise.all(promises);
+    }
+    {
+        const targetPage = page;
+        const promises = [];
+        promises.push(targetPage.waitForNavigation());
+        const element = await waitForSelectors([["aria/Dashboard"],["#breadcrumbs > li:nth-child(1) > a"]], targetPage, { timeout, visible: true });
+        await scrollIntoViewIfNeeded(element, timeout);
+        await element.click({ offset: { x: 46.8046875, y: 21} });
+        await Promise.all(promises);
+    }
 
+//    await page.waitForNavigation({waitUntil: 'networkidle2'})
+//    await page.screenshot({ path: 'screenshot2.png'})
     await recorder.stop();
     await browser.close();
 
