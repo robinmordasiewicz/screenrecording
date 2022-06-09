@@ -175,7 +175,8 @@ const Config = {
         const targetPage = page;
         const promises = [];
         promises.push(targetPage.waitForNavigation());
-        await targetPage.goto("http://robin-jenkins.amer.myedgedemo.com:8080/", {"waitUntil" : "networkidle0"});
+        //await targetPage.goto("http://robin-jenkins.amer.myedgedemo.com:8080/", {"waitUntil" : "networkidle0"});
+        await targetPage.goto("http://robin-jenkins.amer.myedgedemo.com:8080/");
         await Promise.all(promises);
     }
     {
@@ -231,7 +232,6 @@ const Config = {
         }
         await page.screenshot({
           path: 'screenshot.jpg',
-          fullPage: true,
           type: 'jpeg',
           quality: 80,
           clip: { x: 0, y: 0, width: 1920, height: 1080 }
