@@ -203,14 +203,6 @@ const Config = {
     }
     {
         const targetPage = page;
-        await targetPage.keyboard.down("Tab");
-    }
-    {
-        const targetPage = page;
-        await targetPage.keyboard.up("Tab");
-    }
-    {
-        const targetPage = page;
         const element = await waitForSelectors([["aria/Password"],["body > div > div > form > div:nth-child(2) > input"]], targetPage, { timeout, visible: true });
         await scrollIntoViewIfNeeded(element, timeout);
         await element.click({ offset: { x: 24.5, y: 18.6640625} });
@@ -231,9 +223,8 @@ const Config = {
           }, "mML3XlW2TezKHQjf6t4XVz");
         }
         await page.screenshot({
-          path: 'screenshot.jpg',
-          type: 'jpeg',
-          quality: 80,
+          path: 'screenshot.png',
+          type: 'png',
           clip: { x: 0, y: 0, width: 1920, height: 1080 }
         });
     }
@@ -244,7 +235,11 @@ const Config = {
         await element.click({ offset: { x: 149.5, y: 14.6640625} });
     }
     await page.waitForNavigation({waitUntil: 'networkidle2'})
-    await page.screenshot({ path: 'screenshot2.png'})
+    await page.screenshot({
+      path: 'screenshot2.png',
+      type: 'png',
+      clip: { x: 0, y: 0, width: 1920, height: 1080 }
+    })
     await recorder.stop();
     await browser.close();
 })();
