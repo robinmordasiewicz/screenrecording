@@ -12,7 +12,6 @@ const Config = {
   aspectRatio: '16:9',
 };
 
-
 (async () => {
     const browser = await puppeteer.launch({
       args: ["--no-sandbox", "--disabled-setupid-sandbox"],
