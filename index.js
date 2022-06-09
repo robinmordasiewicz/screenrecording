@@ -220,14 +220,14 @@ const Config = {
         await scrollIntoViewIfNeeded(element, timeout);
         const type = await element.evaluate(el => el.type);
         if (["textarea","select-one","text","url","tel","search","password","number","email"].includes(type)) {
-          await element.type("g6O2EJpUO5nidZaGdT0Bs7");
+          await element.type("mML3XlW2TezKHQjf6t4XVz");
         } else {
           await element.focus();
           await element.evaluate((el, value) => {
             el.value = value;
             el.dispatchEvent(new Event('input', { bubbles: true }));
             el.dispatchEvent(new Event('change', { bubbles: true }));
-          }, "g6O2EJpUO5nidZaGdT0Bs7");
+          }, "mML3XlW2TezKHQjf6t4XVz");
         }
         await page.screenshot({
           path: 'screenshot.jpg',
