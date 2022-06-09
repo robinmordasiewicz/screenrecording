@@ -1,149 +1,251 @@
-const puppeteer = require('puppeteer');
-var yargs = require('yargs');
-const delay = require('delay');
-const fs = require('fs');
-const path = require('path');
+const puppeteer = require('puppeteer'); // v13.0.0 or later
+const { PuppeteerScreenRecorder } = require("puppeteer-screen-recorder");
 
-let argv = yargs(process.argv.slice(2))
-    .detectLocale(false)
-    .usage('$0 [options] <url>', 'Take a screenshot of a webpage', (yargs) => {
-        yargs
-            .option('width', {
-                description: 'Viewport width',
-                type: 'number',
-                demandOption: false,
-                default: 1920,
-            })
-            .option('height', {
-                description: 'Viewport height',
-                type: 'number',
-                demandOption: false,
-                default: 1080,
-            })
-            .option('outputDir', {
-                description: 'Output directory, defaults to current directory',
-                type: 'string',
-                demandOption: false,
-                default: '.',
-            })
-            .option('filename', {
-                description: 'Filename of the produced screenshot',
-                type: 'string',
-                demandOption: false,
-                default: 'screenshot',
-            })
-            .option('inputDir', {
-                description: 'Input directory, defaults to current directory',
-                type: 'string',
-                demandOption: false,
-                default: '.',
-            })
-            .option('userAgent', {
-                description: 'User agent',
-                type: 'string',
-                demandOption: false,
-                default: '',
-            })
-            .option('cookies', {
-                description: 'Cookies in json format as string',
-                type: 'string',
-                demandOption: false,
-                default: '',
-            })
-            .option('cookiesFile', {
-                description: 'Path of the file containing the cookies',
-                type: 'string',
-                demandOption: false,
-                default: '',
-            })
-            .option('delay', {
-                description: 'Delay before taking the screenshot in ms',
-                type: 'number',
-                demandOption: false,
-                default: 0,
-            })
-            .option('format', {
-                description: 'Image format of the screenshot',
-                type: 'string',
-                choices: ['png', 'jpeg', 'webp'],
-                demandOption: false,
-                default: 'png',
-            })
-            .positional('url', {
-                description:
-                    'Url of the webpage you want to take a screenshot of',
-                type: 'string',
-            })
-            .example(
-                '$0 https://github.com',
-                'Take a screenshot of https://github.com and save it as screenshot.png'
-            )
-            .example(
-                '$0 --cookiesFile=cookies.json https://google.com',
-                'Load the cookies from cookies.json, take a screenshot of https://google.com and save it as screenshot.png'
-            );
-    })
-    .help('h')
-    .alias('h', 'help')
-    .version()
-    .alias('version', 'v')
-    .wrap(Math.min(yargs.terminalWidth(), 130)).argv;
+const Config = {
+  followNewTab: true,
+  fps: 30,
+  ffmpeg_Path: '/usr/bin/ffmpeg' || null,
+  videoFrame: {
+    width: 1920,
+    height: 1080,
+  },
+  aspectRatio: '16:9',
+};
 
-takeScreenshot(argv);
 
-function takeScreenshot(argv) {
-    (async () => {
-        const browser = await puppeteer.launch({
-            defaultViewport: {
-                width: argv.width,
-                height: argv.height,
-            },
-            bindAddress: '0.0.0.0',
-            args: [
-                '--no-sandbox',
-                '--headless',
-                '--disable-gpu',
-                '--disable-dev-shm-usage',
-                '--remote-debugging-port=9222',
-                '--remote-debugging-address=0.0.0.0',
-            ],
+(async () => {
+    const browser = await puppeteer.launch({
+      args: ["--no-sandbox", "--disabled-setupid-sandbox"],
+      slowMo: 50 // slow down by ms
+    });
+    const page = await browser.newPage();
+    await page.setViewport({ width: 1920, height: 1080 });
+    const timeout = 5000;
+    page.setDefaultTimeout(timeout);
+    const recorder = new PuppeteerScreenRecorder(page, Config);
+    await recorder.start("output.mp4");
+
+    async function waitForSelectors(selectors, frame, options) {
+      for (const selector of selectors) {
+        try {
+          return await waitForSelector(selector, frame, options);
+        } catch (err) {
+          console.error(err);
+        }
+      }
+      throw new Error('Could not find element for selectors: ' + JSON.stringify(selectors));
+    }
+
+    async function scrollIntoViewIfNeeded(element, timeout) {
+      await waitForConnected(element, timeout);
+      const isInViewport = await element.isIntersectingViewport({threshold: 0});
+      if (isInViewport) {
+        return;
+      }
+      await element.evaluate(element => {
+        element.scrollIntoView({
+          block: 'center',
+          inline: 'center',
+          behavior: 'auto',
         });
+      });
+      await waitForInViewport(element, timeout);
+    }
 
-        const page = await browser.newPage();
+    async function waitForConnected(element, timeout) {
+      await waitForFunction(async () => {
+        return await element.getProperty('isConnected');
+      }, timeout);
+    }
 
-        if (argv.userAgent) await page.setUserAgent(argv.userAgent);
+    async function waitForInViewport(element, timeout) {
+      await waitForFunction(async () => {
+        return await element.isIntersectingViewport({threshold: 0});
+      }, timeout);
+    }
 
-        if (argv.cookies) {
-            let cookies = JSON.parse(argv.cookies);
-            if (Array.isArray(cookies)) {
-                await page.setCookie(...cookies);
-            } else {
-                await page.setCookie(cookies);
-            }
+    async function waitForSelector(selector, frame, options) {
+      if (!Array.isArray(selector)) {
+        selector = [selector];
+      }
+      if (!selector.length) {
+        throw new Error('Empty selector provided to waitForSelector');
+      }
+      let element = null;
+      for (let i = 0; i < selector.length; i++) {
+        const part = selector[i];
+        if (element) {
+          element = await element.waitForSelector(part, options);
+        } else {
+          element = await frame.waitForSelector(part, options);
         }
-
-        if (argv.cookiesFile) {
-            let cookies = JSON.parse(
-                fs.readFileSync(path.join(argv.inputDir, argv.cookiesFile))
-            );
-            if (Array.isArray(cookies)) {
-                await page.setCookie(...cookies);
-            } else {
-                await page.setCookie(cookies);
-            }
+        if (!element) {
+          throw new Error('Could not find element: ' + selector.join('>>'));
         }
+        if (i < selector.length - 1) {
+          element = (await element.evaluateHandle(el => el.shadowRoot ? el.shadowRoot : el)).asElement();
+        }
+      }
+      if (!element) {
+        throw new Error('Could not find element: ' + selector.join('|'));
+      }
+      return element;
+    }
 
-        await page.goto(argv.url);
+    async function waitForElement(step, frame, timeout) {
+      const count = step.count || 1;
+      const operator = step.operator || '>=';
+      const comp = {
+        '==': (a, b) => a === b,
+        '>=': (a, b) => a >= b,
+        '<=': (a, b) => a <= b,
+      };
+      const compFn = comp[operator];
+      await waitForFunction(async () => {
+        const elements = await querySelectorsAll(step.selectors, frame);
+        return compFn(elements.length, count);
+      }, timeout);
+    }
 
-        if (argv.delay) await delay(argv.delay);
+    async function querySelectorsAll(selectors, frame) {
+      for (const selector of selectors) {
+        const result = await querySelectorAll(selector, frame);
+        if (result.length) {
+          return result;
+        }
+      }
+      return [];
+    }
 
+    async function querySelectorAll(selector, frame) {
+      if (!Array.isArray(selector)) {
+        selector = [selector];
+      }
+      if (!selector.length) {
+        throw new Error('Empty selector provided to querySelectorAll');
+      }
+      let elements = [];
+      for (let i = 0; i < selector.length; i++) {
+        const part = selector[i];
+        if (i === 0) {
+          elements = await frame.$$(part);
+        } else {
+          const tmpElements = elements;
+          elements = [];
+          for (const el of tmpElements) {
+            elements.push(...(await el.$$(part)));
+          }
+        }
+        if (elements.length === 0) {
+          return [];
+        }
+        if (i < selector.length - 1) {
+          const tmpElements = [];
+          for (const el of elements) {
+            const newEl = (await el.evaluateHandle(el => el.shadowRoot ? el.shadowRoot : el)).asElement();
+            if (newEl) {
+              tmpElements.push(newEl);
+            }
+          }
+          elements = tmpElements;
+        }
+      }
+      return elements;
+    }
+
+    async function waitForFunction(fn, timeout) {
+      let isActive = true;
+      setTimeout(() => {
+        isActive = false;
+      }, timeout);
+      while (isActive) {
+        const result = await fn();
+        if (result) {
+          return;
+        }
+        await new Promise(resolve => setTimeout(resolve, 100));
+      }
+      throw new Error('Timed out');
+    }
+    {
+        const targetPage = page;
+        await targetPage.setViewport({"width":1920,"height":1080})
+    }
+    {
+        const targetPage = page;
+        const promises = [];
+        promises.push(targetPage.waitForNavigation());
+        await targetPage.goto("http://robin-jenkins.amer.myedgedemo.com:8080/", {"waitUntil" : "networkidle0"});
+        await Promise.all(promises);
+    }
+    {
+        const targetPage = page;
+        const element = await waitForSelectors([["aria/Username"],["#j_username"]], targetPage, { timeout, visible: true });
+        await scrollIntoViewIfNeeded(element, timeout);
+        await element.click({ offset: { x: 127.5, y: 14.6640625} });
+    }
+    {
+        const targetPage = page;
+        const element = await waitForSelectors([["aria/Username"],["#j_username"]], targetPage, { timeout, visible: true });
+        await scrollIntoViewIfNeeded(element, timeout);
+        const type = await element.evaluate(el => el.type);
+        if (["textarea","select-one","text","url","tel","search","password","number","email"].includes(type)) {
+          await element.type("admin");
+        } else {
+          await element.focus();
+          await element.evaluate((el, value) => {
+            el.value = value;
+            el.dispatchEvent(new Event('input', { bubbles: true }));
+            el.dispatchEvent(new Event('change', { bubbles: true }));
+          }, "admin");
+        }
+    }
+    {
+        const targetPage = page;
+        await targetPage.keyboard.down("Tab");
+    }
+    {
+        const targetPage = page;
+        await targetPage.keyboard.up("Tab");
+    }
+    {
+        const targetPage = page;
+        const element = await waitForSelectors([["aria/Password"],["body > div > div > form > div:nth-child(2) > input"]], targetPage, { timeout, visible: true });
+        await scrollIntoViewIfNeeded(element, timeout);
+        await element.click({ offset: { x: 24.5, y: 18.6640625} });
+    }
+    {
+        const targetPage = page;
+        const element = await waitForSelectors([["aria/Password"],["body > div > div > form > div:nth-child(2) > input"]], targetPage, { timeout, visible: true });
+        await scrollIntoViewIfNeeded(element, timeout);
+        const type = await element.evaluate(el => el.type);
+        if (["textarea","select-one","text","url","tel","search","password","number","email"].includes(type)) {
+          await element.type("g6O2EJpUO5nidZaGdT0Bs7");
+        } else {
+          await element.focus();
+          await element.evaluate((el, value) => {
+            el.value = value;
+            el.dispatchEvent(new Event('input', { bubbles: true }));
+            el.dispatchEvent(new Event('change', { bubbles: true }));
+          }, "g6O2EJpUO5nidZaGdT0Bs7");
+        }
         await page.screenshot({
-            path: path
-                .join(argv.outputDir, argv.filename + '.' + argv.format)
-                .toString(),
-            type: argv.format,
+          path: 'screenshot.jpg',
+          fullPage: true,
+          type: 'jpeg',
+          quality: 80,
+          clip: { x: 0, y: 0, width: 1920, height: 1080 }
         });
+    }
+    {
+        const targetPage = page;
+        const element = await waitForSelectors([["aria/Sign in"],["body > div > div > form > div.submit.formRow > input"]], targetPage, { timeout, visible: true });
+        await scrollIntoViewIfNeeded(element, timeout);
+        await element.click({ offset: { x: 149.5, y: 14.6640625} });
+    }
 
-        await browser.close();
-    })();
-}
+//    await page.screenshot({ path: 'screenshot_1.png', fullPage: true })
+  // Takes a screenshot of an area within the page
+    await recorder.stop();
+    await browser.close();
+})();

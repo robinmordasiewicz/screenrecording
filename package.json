@@ -2,6 +2,7 @@
   "dependencies": {
     "delay": "^5.0.0",
     "puppeteer": "^14.3.0",
+    "puppeteer-screen-recorder": "^2.0.2",
     "yargs": "^17.5.1"
   }
 }

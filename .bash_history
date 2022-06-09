@@ -58,3 +58,30 @@ exit
 cat README.md 
 node index.js https://github.com --width 1920 --height 1080
 exit
+node index.js 
+cat README.md 
+node index.js https://github.com --width 1920 --height 1080 --delay 100 --format png
+exit
+node index.js
+exit
+node index.js
+exit
+node index.js
+yarn add puppeteer-screen-recorder
+node index.js
+exit
+node index.js
+exit
+node index.js
+ls -la
+exit
+node index.js
+exit
+node index.js
+exit
+node index.js
+exit
+which ffmpeg
+exit
+which ffmpeg 
+exit

@@ -1,0 +1,51 @@
+const puppeteer = require("puppeteer");
+const { PuppeteerScreenRecorder } = require("puppeteer-screen-recorder");
+
+(async () => {
+
+  const browser = await puppeteer.launch({
+    args: ["--no-sandbox", "--disabled-setupid-sandbox"],
+  });
+
+  const page = await browser.newPage();
+  await page.setViewport({ width: 1920, height: 1080 })
+
+  // record this video file
+  const recorder = new PuppeteerScreenRecorder(page);
+  await recorder.start("output.mp4");
+
+  await page.goto("https://google.com");
+  await page.mouse.move(40, 150);
+
+  await page.waitForSelector(
+    "body > div.L3eUgb > div.o3j99.ikrT4e.om7nvf > form > div:nth-child(1) > div.A8SBwf > div.RNNXgb > div > div.a4bIc > input"
+  );
+
+  await page.waitForTimeout(4000); // 4 seconds
+
+  await page.type('input[aria-label="Search"]', "F5 distributed cloud");
+  await page.keyboard.press("Enter");
+  await page.waitForTimeout(4000); // 4 seconds
+
+  await page.mouse.move(200, 350);
+
+//  await page.keyboard.click({clickCount: 3});
+//  await input.click({ clickCount: 3 })
+  await page.type('input[aria-label="Search"]', " ");
+  await page.keyboard.down('Control');
+  await page.keyboard.press('A');
+  await page.keyboard.up('Control');
+  await page.keyboard.press('Backspace');
+
+  await page.waitForTimeout(4000); // 4 seconds
+
+  await page.type('input[aria-label="Search"]', "F5 Service Proxy for kubernetes");
+  await page.keyboard.press("Enter");
+  await page.waitForTimeout(4000); // 4 seconds
+
+  await page.mouse.move(400, 550);
+
+  // stop the recording
+  await recorder.stop();
+  await browser.close();
+})();
