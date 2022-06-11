@@ -27,11 +27,12 @@ const Config = {
 
 (async () => {
     const browser = await puppeteer.launch({
-      args: ["--no-sandbox", "--disabled-setupid-sandbox","--enable-font-antialiasing","--force-device-scale-factor=1", "--high-dpi-support=1"],
+      args: ["--no-sandbox", "--disabled-setupid-sandbox","--enable-font-antialiasing","--force-device-scale-factor=1", "--high-dpi-support=1", "--font-render-hinting=none","--disable-gpu","--force-color-profile=srgb"],
       slowMo: 0,
       headless : true
     });
     const page = await browser.newPage();
+    await page.setUserAgent("Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_6) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/85.0.4183.121 Safari/537.36");
     const cursor = createCursor(page);
     await installMouseHelper(page); // Install Mouse Helper
     await page.setViewport({ width: 1920, height: 1080 });
@@ -294,6 +295,7 @@ const Config = {
     {
         // Jenkins login screenshot
         const targetPage = page;
+        await page.waitForTimeout(2000);
         // await targetPage.waitForNavigation({waitUntil: 'networkidle2'});
         await targetPage.screenshot({
           path: 'screenshot2.png',
