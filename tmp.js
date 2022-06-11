@@ -306,9 +306,9 @@ const Config = {
         promises.push(targetPage.waitForNavigation());
         const element = await waitForSelectors([["#tasks > div:nth-child(6) > span > a > span.task-link-text"]], targetPage, { timeout, visible: true });
         await scrollIntoViewIfNeeded(element, timeout);
-        await cursor.move(element)
+        await cursor.move(element);
         await element.click({ offset: { x: 63, y: 12.5} });
-        await targetPage.waitForNavigation({waitUntil: 'networkidle2'})
+        await targetPage.waitForNavigation({waitUntil: 'networkidle2'});
         await Promise.all(promises);
     }
     {
@@ -364,7 +364,7 @@ const Config = {
         const element = await waitForSelectors([["aria/Dashboard"],["#breadcrumbs > li:nth-child(1) > a"]], targetPage, { timeout, visible: true });
         await scrollIntoViewIfNeeded(element, timeout);
         await element.click({ offset: { x: 51.8046875, y: 25} });
-        await targetPage.waitForNavigation({waitUntil: 'networkidle2'})
+        await targetPage.waitForNavigation({waitUntil: 'networkidle2'});
         //await Promise.all(promises);
     }
 
