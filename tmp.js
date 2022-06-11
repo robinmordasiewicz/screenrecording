@@ -322,6 +322,7 @@ const Config = {
     }
     {
         const targetPage = page;
+        await targetPage.waitForTimeout(2000);
         const element = await waitForSelectors([["#main-panel > div > div > div > form:nth-child(4) > div:nth-child(1) > div.jenkins-form-item.tr > div.setting-main > input"]], targetPage, { timeout, visible: true });
         await scrollIntoViewIfNeeded(element, timeout);
         const type = await element.evaluate(el => el.type);
