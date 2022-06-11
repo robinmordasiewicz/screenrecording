@@ -287,7 +287,7 @@ const Config = {
         await targetPage.mouse.move(960, 643);
 */
         // await cursor.move(element);
-        await targetPage.waitForTimeout(1000);
+        // await targetPage.waitForTimeout(1000);
         // await element.click({ offset: { x: 150, y: 15} });
         await cursor.click(element);
     }
@@ -304,7 +304,7 @@ const Config = {
     }
     {
         // Click Manage Jenkins
-        await page.waitForTimeout(2000);
+        // await page.waitForTimeout(2000);
         const targetPage = page;
         const promises = [];
         promises.push(targetPage.waitForNavigation());
@@ -328,7 +328,7 @@ const Config = {
     }
     {
         const targetPage = page;
-        await targetPage.waitForTimeout(2000);
+        // await targetPage.waitForTimeout(2000);
         const element = await waitForSelectors([["#main-panel > div > div > div > form:nth-child(4) > div:nth-child(1) > div.jenkins-form-item.tr > div.setting-main > input"]], targetPage, { timeout, visible: true });
         await scrollIntoViewIfNeeded(element, timeout);
         await cursor.click(element);
@@ -337,7 +337,7 @@ const Config = {
     {
         // Enter the JCASC URL into the form
         const targetPage = page;
-        await targetPage.waitForTimeout(2000);
+        // await targetPage.waitForTimeout(2000);
         const element = await waitForSelectors([["#main-panel > div > div > div > form:nth-child(4) > div:nth-child(1) > div.jenkins-form-item.tr > div.setting-main > input"]], targetPage, { timeout, visible: true });
         await scrollIntoViewIfNeeded(element, timeout);
         const type = await element.evaluate(el => el.type);
@@ -355,7 +355,7 @@ const Config = {
     {
         // Apply JCASC URL
         const targetPage = page;
-        await targetPage.waitForTimeout(2000);
+        // await targetPage.waitForTimeout(2000);
         const promises = [];
         promises.push(targetPage.waitForNavigation());
         const element = await waitForSelectors([["aria/Apply new configuration"],["#yui-gen1-button"]], targetPage, { timeout, visible: true });
