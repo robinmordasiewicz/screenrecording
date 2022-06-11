@@ -1,6 +1,9 @@
 const puppeteer = require('puppeteer'); // v13.0.0 or later
 const { PuppeteerScreenRecorder } = require("puppeteer-screen-recorder");
 const {installMouseHelper} = require('./install-mouse-helper');
+const sleep = (milliseconds) => {
+  return new Promise((resolve) => setTimeout(resolve, milliseconds));
+};
 //const TOKEN = process.argv[2];
 //var arg = process.argv.slice(2);
 //var TOKEN=arg[0];
@@ -346,17 +349,10 @@ const Config = {
         //await Promise.all(promises);
     }
 
-/*
-    {
-        const targetPage = page;
-        await targetPage.waitForNavigation({waitUntil: 'networkidle2'})
-        await targetPage.screenshot({
-          path: 'screenshot3.png',
-          type: 'png',
-          clip: { x: 0, y: 0, width: 1920, height: 1080 }
-        })
-    }
-*/
+    //save cookies
+//    const cookies = await page.cookies();
+//    await fs.writeFile('./cookies.json', JSON.stringify(cookies, null, 2));
+
     await recorder.stop();
     await browser.close();
 
