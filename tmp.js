@@ -30,7 +30,7 @@ const Config = {
     const browser = await puppeteer.launch({
       args: ["--no-sandbox", "--disabled-setupid-sandbox"],
       slowMo: 40,
-      headless : true
+      headless : false
     });
     const page = await browser.newPage();
     const cursor = createCursor(page);
@@ -199,8 +199,8 @@ const Config = {
         const targetPage = page;
         const element = await waitForSelectors([["aria/Username"],["#j_username"]], targetPage, { timeout, visible: true });
         await scrollIntoViewIfNeeded(element, timeout);
-        await targetPage.mouse.move(965, 510);
 /*
+        await targetPage.mouse.move(965, 510);
         await targetPage.mouse.move(960, 515);
         await targetPage.mouse.move(955, 520);
         await targetPage.mouse.move(950, 525);
@@ -246,7 +246,7 @@ const Config = {
         await cursor.move(element)
         await element.click({ offset: { x: 125, y: 15} });
 */
-        await cursor.click(element)
+        await cursor.click(element);
     }
     {
         const targetPage = page;
@@ -290,7 +290,7 @@ const Config = {
         await targetPage.waitForTimeout(1000)
         await element.click({ offset: { x: 150, y: 15} });
 */
-        await cursor.click(element)
+        await cursor.click(element);
     }
     {
         const targetPage = page;
@@ -309,7 +309,7 @@ const Config = {
         promises.push(targetPage.waitForNavigation());
         const element = await waitForSelectors([["#tasks > div:nth-child(6) > span > a > span.task-link-text"]], targetPage, { timeout, visible: true });
         await scrollIntoViewIfNeeded(element, timeout);
-        await cursor.move(element)
+//        await cursor.move(element);
         await element.click({ offset: { x: 63, y: 12.5} });
         await targetPage.waitForNavigation({waitUntil: 'networkidle2'})
         await Promise.all(promises);
