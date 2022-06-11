@@ -1,5 +1,4 @@
-const puppeteer = require('puppeteer'); // v13.0.0 or later
-
+const puppeteer = require('puppeteer');
 const { createCursor } = require("ghost-cursor");
 
 const { PuppeteerScreenRecorder } = require("puppeteer-screen-recorder");
@@ -10,7 +9,7 @@ const sleep = (milliseconds) => {
 //const TOKEN = process.argv[2];
 //var arg = process.argv.slice(2);
 //var TOKEN=arg[0];
-var TOKEN="lB2TOIHh86yFcVtTn0pRyI"
+var TOKEN="lB2TOIHh86yFcVtTn0pRyI";
 if ( !TOKEN ) {
     throw "Please provide a URL as the first argument";
 }
@@ -199,8 +198,8 @@ const Config = {
         const targetPage = page;
         const element = await waitForSelectors([["aria/Username"],["#j_username"]], targetPage, { timeout, visible: true });
         await scrollIntoViewIfNeeded(element, timeout);
-/*
         await targetPage.mouse.move(965, 510);
+/*
         await targetPage.mouse.move(960, 515);
         await targetPage.mouse.move(955, 520);
         await targetPage.mouse.move(950, 525);
@@ -243,10 +242,9 @@ const Config = {
         await targetPage.mouse.move(925, 580);
         await targetPage.mouse.move(925, 585);
         await targetPage.mouse.move(925, 590);
+*/
         await cursor.move(element)
         await element.click({ offset: { x: 125, y: 15} });
-*/
-        await cursor.click(element);
     }
     {
         const targetPage = page;
@@ -286,11 +284,10 @@ const Config = {
         await targetPage.mouse.move(953, 635);
         await targetPage.mouse.move(956, 638);
         await targetPage.mouse.move(960, 643);
+*/
         await cursor.move(element)
         await targetPage.waitForTimeout(1000)
         await element.click({ offset: { x: 150, y: 15} });
-*/
-        await cursor.click(element);
     }
     {
         const targetPage = page;
@@ -309,7 +306,7 @@ const Config = {
         promises.push(targetPage.waitForNavigation());
         const element = await waitForSelectors([["#tasks > div:nth-child(6) > span > a > span.task-link-text"]], targetPage, { timeout, visible: true });
         await scrollIntoViewIfNeeded(element, timeout);
-//        await cursor.move(element);
+        await cursor.move(element)
         await element.click({ offset: { x: 63, y: 12.5} });
         await targetPage.waitForNavigation({waitUntil: 'networkidle2'})
         await Promise.all(promises);
