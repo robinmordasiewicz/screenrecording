@@ -293,7 +293,7 @@ const Config = {
     {
         // Jenkins login screenshot
         const targetPage = page;
-        await targetPage.waitForNavigation({waitUntil: 'networkidle2'});
+        // await targetPage.waitForNavigation({waitUntil: 'networkidle2'});
         await targetPage.screenshot({
           path: 'screenshot2.png',
           type: 'png',
@@ -311,7 +311,7 @@ const Config = {
         await scrollIntoViewIfNeeded(element, timeout);
         await cursor.move(element);
         await element.click({ offset: { x: 63, y: 12.5} });
-        await targetPage.waitForNavigation({waitUntil: 'networkidle2'});
+        // await targetPage.waitForNavigation({waitUntil: 'networkidle2'});
         await Promise.all(promises);
     }
     {
@@ -322,7 +322,7 @@ const Config = {
         await scrollIntoViewIfNeeded(element, timeout);
         await cursor.click(element);
         // await element.click({ offset: { x: 61.671875, y: 7.96875} });
-        await targetPage.waitForNavigation({waitUntil: 'networkidle2'});
+        // await targetPage.waitForNavigation({waitUntil: 'networkidle2'});
         await Promise.all(promises);
     }
     {
@@ -361,7 +361,7 @@ const Config = {
         await scrollIntoViewIfNeeded(element, timeout);
         await cursor.click(element);
         // await element.click({ offset: { x: 71, y: 11.0078125} });
-        await targetPage.waitForNavigation({waitUntil: 'networkidle2'});
+        // await targetPage.waitForNavigation({waitUntil: 'networkidle2'});
         //await Promise.all(promises);
     }
     {
