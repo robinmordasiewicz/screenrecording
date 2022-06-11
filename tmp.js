@@ -1,4 +1,7 @@
 const puppeteer = require('puppeteer'); // v13.0.0 or later
+
+const { createCursor } = require("ghost-cursor");
+
 const { PuppeteerScreenRecorder } = require("puppeteer-screen-recorder");
 const {installMouseHelper} = require('./install-mouse-helper');
 const sleep = (milliseconds) => {
@@ -14,7 +17,7 @@ if ( !TOKEN ) {
 
 const Config = {
   followNewTab: true,
-  fps: 60,
+  fps: 30,
   ffmpeg_Path: 'ffmpeg' || null,
   videoFrame: {
     width: 1920,
@@ -26,7 +29,7 @@ const Config = {
 (async () => {
     const browser = await puppeteer.launch({
       args: ["--no-sandbox", "--disabled-setupid-sandbox"],
-      slowMo: 60,
+      slowMo: 40,
       headless : true
     });
     const page = await browser.newPage();

@@ -44,6 +44,7 @@ RUN npm i
 #RUN yarn add puppeteer-screen-recorder
 #RUN yarn add yargs
 #RUN yarn add delay
+#RUN yarn add ghost-cursor
 
 USER ubuntu
 
