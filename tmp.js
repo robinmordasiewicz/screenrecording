@@ -33,6 +33,7 @@ const Config = {
       headless : true
     });
     const page = await browser.newPage();
+    const cursor = createCursor(page);
     await installMouseHelper(page); // Install Mouse Helper
     await page.setViewport({ width: 1920, height: 1080 });
     const timeout = 50000;
@@ -199,6 +200,7 @@ const Config = {
         const element = await waitForSelectors([["aria/Username"],["#j_username"]], targetPage, { timeout, visible: true });
         await scrollIntoViewIfNeeded(element, timeout);
         await targetPage.mouse.move(965, 510);
+/*
         await targetPage.mouse.move(960, 515);
         await targetPage.mouse.move(955, 520);
         await targetPage.mouse.move(950, 525);
@@ -207,6 +209,8 @@ const Config = {
         await targetPage.mouse.move(935, 540);
         await targetPage.mouse.move(930, 545);
         await targetPage.mouse.move(925, 550);
+*/
+        await cursor.move(element)
         await element.click({ offset: { x: 125, y: 15} });
     }
     {
@@ -229,6 +233,7 @@ const Config = {
         const targetPage = page;
         const element = await waitForSelectors([["aria/Password"],["body > div > div > form > div:nth-child(2) > input"]], targetPage, { timeout, visible: true });
         await scrollIntoViewIfNeeded(element, timeout);
+/*
         await targetPage.mouse.move(925, 550);
         await targetPage.mouse.move(925, 555);
         await targetPage.mouse.move(925, 560);
@@ -238,6 +243,8 @@ const Config = {
         await targetPage.mouse.move(925, 580);
         await targetPage.mouse.move(925, 585);
         await targetPage.mouse.move(925, 590);
+*/
+        await cursor.move(element)
         await element.click({ offset: { x: 125, y: 15} });
     }
     {
@@ -265,6 +272,7 @@ const Config = {
         const targetPage = page;
         const element = await waitForSelectors([["aria/Sign in"],["body > div > div > form > div.submit.formRow > input"]], targetPage, { timeout, visible: true });
         await scrollIntoViewIfNeeded(element, timeout);
+/*
         await targetPage.mouse.move(930, 588);
         await targetPage.mouse.move(933, 595);
         await targetPage.mouse.move(936, 600);
@@ -277,6 +285,8 @@ const Config = {
         await targetPage.mouse.move(953, 635);
         await targetPage.mouse.move(956, 638);
         await targetPage.mouse.move(960, 643);
+*/
+        await cursor.move(element)
         await targetPage.waitForTimeout(1000)
         await element.click({ offset: { x: 150, y: 15} });
     }
@@ -297,6 +307,7 @@ const Config = {
         promises.push(targetPage.waitForNavigation());
         const element = await waitForSelectors([["#tasks > div:nth-child(6) > span > a > span.task-link-text"]], targetPage, { timeout, visible: true });
         await scrollIntoViewIfNeeded(element, timeout);
+        await cursor.move(element)
         await element.click({ offset: { x: 63, y: 12.5} });
         await targetPage.waitForNavigation({waitUntil: 'networkidle2'})
         await Promise.all(promises);
