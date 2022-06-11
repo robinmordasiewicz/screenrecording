@@ -342,6 +342,7 @@ const Config = {
         const element = await waitForSelectors([["aria/Dashboard"],["#breadcrumbs > li:nth-child(1) > a"]], targetPage, { timeout, visible: true });
         await scrollIntoViewIfNeeded(element, timeout);
         await element.click({ offset: { x: 51.8046875, y: 25} });
+        await targetPage.waitForNavigation({waitUntil: 'networkidle2'})
         //await Promise.all(promises);
     }
 
