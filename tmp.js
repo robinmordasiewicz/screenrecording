@@ -320,7 +320,8 @@ const Config = {
         promises.push(targetPage.waitForNavigation());
         const element = await waitForSelectors([["#main-panel > section:nth-child(4) > div > div:nth-child(5) > a > dl > dd:nth-child(2)"]], targetPage, { timeout, visible: true });
         await scrollIntoViewIfNeeded(element, timeout);
-        await element.click({ offset: { x: 61.671875, y: 7.96875} });
+        await cursor.click(element);
+        // await element.click({ offset: { x: 61.671875, y: 7.96875} });
         await targetPage.waitForNavigation({waitUntil: 'networkidle2'});
         await Promise.all(promises);
     }
