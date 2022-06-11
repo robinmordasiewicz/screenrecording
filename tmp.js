@@ -29,7 +29,7 @@ const Config = {
     const page = await browser.newPage();
     await installMouseHelper(page); // Install Mouse Helper
     await page.setViewport({ width: 1920, height: 1080 });
-    const timeout = 5000;
+    const timeout = 50000;
     page.setDefaultTimeout(timeout);
     const recorder = new PuppeteerScreenRecorder(page, Config);
     await recorder.start("output.mp4");
@@ -332,15 +332,7 @@ const Config = {
         const element = await waitForSelectors([["aria/Apply new configuration"],["#yui-gen1-button"]], targetPage, { timeout, visible: true });
         await scrollIntoViewIfNeeded(element, timeout);
         await element.click({ offset: { x: 71, y: 11.0078125} });
-        //await Promise.all(promises);
-    }
-    {
-        const targetPage = page;
-        const promises = [];
-        promises.push(targetPage.waitForNavigation());
-        const element = await waitForSelectors([["aria/Apply new configuration"],["#yui-gen1-button"]], targetPage, { timeout, visible: true });
-        await scrollIntoViewIfNeeded(element, timeout);
-        await element.click({ offset: { x: 87, y: 9.0078125} });
+        await targetPage.waitForNavigation({waitUntil: 'networkidle2'})
         //await Promise.all(promises);
     }
 /*    {
