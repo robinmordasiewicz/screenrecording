@@ -286,9 +286,10 @@ const Config = {
         await targetPage.mouse.move(956, 638);
         await targetPage.mouse.move(960, 643);
 */
-        await cursor.move(element);
+        // await cursor.move(element);
         await targetPage.waitForTimeout(1000);
-        await element.click({ offset: { x: 150, y: 15} });
+        // await element.click({ offset: { x: 150, y: 15} });
+        await cursor.click(element);
     }
     {
         // Jenkins login screenshot
@@ -309,8 +310,8 @@ const Config = {
         promises.push(targetPage.waitForNavigation());
         const element = await waitForSelectors([["#tasks > div:nth-child(6) > span > a > span.task-link-text"]], targetPage, { timeout, visible: true });
         await scrollIntoViewIfNeeded(element, timeout);
-        await cursor.move(element);
-        await element.click({ offset: { x: 63, y: 12.5} });
+        await cursor.click(element);
+        // await element.click({ offset: { x: 63, y: 12.5} });
         // await targetPage.waitForNavigation({waitUntil: 'networkidle2'});
         await Promise.all(promises);
     }
