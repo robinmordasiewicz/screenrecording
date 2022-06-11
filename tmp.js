@@ -339,6 +339,7 @@ const Config = {
         //await Promise.all(promises);
     }
     {
+        await page.waitForTimeout(5000);
         const targetPage = page;
         const promises = [];
         promises.push(targetPage.waitForNavigation());
@@ -352,6 +353,7 @@ const Config = {
     //save cookies
 //    const cookies = await page.cookies();
 //    await fs.writeFile('./cookies.json', JSON.stringify(cookies, null, 2));
+    await page.waitForTimeout(5000);
 
     await recorder.stop();
     await browser.close();
