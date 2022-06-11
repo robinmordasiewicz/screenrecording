@@ -184,7 +184,7 @@ const Config = {
     }
     {
         const targetPage = page;
-        await targetPage.setViewport({"width":1920,"height":1080})
+        await targetPage.setViewport({"width":1920,"height":1080});
     }
     {
         const targetPage = page;
@@ -210,7 +210,7 @@ const Config = {
         await targetPage.mouse.move(925, 550);
         await element.click({ offset: { x: 125, y: 15} });
 */
-        await cursor.click(element)
+        await cursor.click(element);
     }
     {
         const targetPage = page;
