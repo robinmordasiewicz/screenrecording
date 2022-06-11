@@ -353,6 +353,17 @@ const Config = {
         //await Promise.all(promises);
     }
 */
+/*
+    {
+        const targetPage = page;
+        await targetPage.waitForNavigation({waitUntil: 'networkidle2'})
+        await targetPage.screenshot({
+          path: 'screenshot3.png',
+          type: 'png',
+          clip: { x: 0, y: 0, width: 1920, height: 1080 }
+        })
+    }
+*/
     await recorder.stop();
     await browser.close();
 
