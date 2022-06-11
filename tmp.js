@@ -23,7 +23,7 @@ const Config = {
 (async () => {
     const browser = await puppeteer.launch({
       args: ["--no-sandbox", "--disabled-setupid-sandbox"],
-      slowMo: 25,
+      slowMo: 40,
       headless : true
     });
     const page = await browser.newPage();
@@ -335,7 +335,7 @@ const Config = {
         await targetPage.waitForNavigation({waitUntil: 'networkidle2'})
         //await Promise.all(promises);
     }
-/*    {
+    {
         const targetPage = page;
         const promises = [];
         promises.push(targetPage.waitForNavigation());
@@ -344,7 +344,7 @@ const Config = {
         await element.click({ offset: { x: 51.8046875, y: 25} });
         //await Promise.all(promises);
     }
-*/
+
 /*
     {
         const targetPage = page;
