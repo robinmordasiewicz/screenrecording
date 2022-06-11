@@ -290,6 +290,7 @@ const Config = {
         await element.click({ offset: { x: 150, y: 15} });
     }
     {
+        // Jenkins login screenshot
         const targetPage = page;
         await targetPage.waitForNavigation({waitUntil: 'networkidle2'});
         await targetPage.screenshot({
@@ -300,6 +301,7 @@ const Config = {
        // await targetPage.screenshot({ path: 'screenshot2.png'})
     }
     {
+        // Click Manage Jenkins
         await page.waitForTimeout(2000);
         const targetPage = page;
         const promises = [];
@@ -329,6 +331,7 @@ const Config = {
         await element.click({ offset: { x: 40, y: 16.0078125} });
     }
     {
+        // Enter the JCASC URL into the form
         const targetPage = page;
         await targetPage.waitForTimeout(2000);
         const element = await waitForSelectors([["#main-panel > div > div > div > form:nth-child(4) > div:nth-child(1) > div.jenkins-form-item.tr > div.setting-main > input"]], targetPage, { timeout, visible: true });
@@ -346,6 +349,7 @@ const Config = {
         }
     }
     {
+        // Apply JCASC URL
         const targetPage = page;
         await targetPage.waitForTimeout(2000);
         const promises = [];
@@ -357,6 +361,7 @@ const Config = {
         //await Promise.all(promises);
     }
     {
+        // Navigate back to the Dashboard
         const targetPage = page;
         await targetPage.waitForTimeout(2000);
         const promises = [];
