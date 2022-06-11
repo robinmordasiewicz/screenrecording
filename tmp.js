@@ -20,7 +20,7 @@ const Config = {
   ffmpeg_Path: 'ffmpeg' || null,
   videoFrame: {
     width: 1920,
-    height: 1080,
+    height: 1080
   },
   aspectRatio: '16:9',
 };
