@@ -14,7 +14,7 @@ if ( !TOKEN ) {
 
 const Config = {
   followNewTab: true,
-  fps: 30,
+  fps: 60,
   ffmpeg_Path: 'ffmpeg' || null,
   videoFrame: {
     width: 1920,
@@ -26,7 +26,7 @@ const Config = {
 (async () => {
     const browser = await puppeteer.launch({
       args: ["--no-sandbox", "--disabled-setupid-sandbox"],
-      slowMo: 40,
+      slowMo: 60,
       headless : true
     });
     const page = await browser.newPage();
