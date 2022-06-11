@@ -243,9 +243,10 @@ const Config = {
         await targetPage.mouse.move(925, 580);
         await targetPage.mouse.move(925, 585);
         await targetPage.mouse.move(925, 590);
-*/
         await cursor.move(element)
         await element.click({ offset: { x: 125, y: 15} });
+*/
+        await cursor.click(element)
     }
     {
         const targetPage = page;
@@ -285,10 +286,11 @@ const Config = {
         await targetPage.mouse.move(953, 635);
         await targetPage.mouse.move(956, 638);
         await targetPage.mouse.move(960, 643);
-*/
         await cursor.move(element)
         await targetPage.waitForTimeout(1000)
         await element.click({ offset: { x: 150, y: 15} });
+*/
+        await cursor.click(element)
     }
     {
         const targetPage = page;
