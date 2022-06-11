@@ -338,6 +338,7 @@ const Config = {
     }
     {
         const targetPage = page;
+        await targetPage.waitForTimeout(2000);
         const promises = [];
         promises.push(targetPage.waitForNavigation());
         const element = await waitForSelectors([["aria/Apply new configuration"],["#yui-gen1-button"]], targetPage, { timeout, visible: true });
