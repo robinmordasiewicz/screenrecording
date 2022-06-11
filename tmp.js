@@ -22,7 +22,7 @@ const Config = {
     width: 1920,
     height: 1080
   },
-  aspectRatio: '16:9',
+  aspectRatio: '16:9'
 };
 
 (async () => {
