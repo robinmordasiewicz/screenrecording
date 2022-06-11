@@ -198,7 +198,6 @@ const Config = {
         const targetPage = page;
         const element = await waitForSelectors([["aria/Username"],["#j_username"]], targetPage, { timeout, visible: true });
         await scrollIntoViewIfNeeded(element, timeout);
-        await targetPage.mouse.move(965, 510);
 /*
         await targetPage.mouse.move(960, 515);
         await targetPage.mouse.move(955, 520);
@@ -210,6 +209,7 @@ const Config = {
         await targetPage.mouse.move(925, 550);
         await element.click({ offset: { x: 125, y: 15} });
 */
+        /* await targetPage.mouse.move(965, 510); */
         await cursor.click(element);
     }
     {
