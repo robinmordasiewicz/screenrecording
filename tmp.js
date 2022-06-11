@@ -243,7 +243,7 @@ const Config = {
         await targetPage.mouse.move(925, 585);
         await targetPage.mouse.move(925, 590);
 */
-        await cursor.move(element)
+        await cursor.move(element);
         await element.click({ offset: { x: 125, y: 15} });
     }
     {
