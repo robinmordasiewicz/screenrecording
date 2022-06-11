@@ -308,12 +308,14 @@ const Config = {
         await targetPage.waitForNavigation({waitUntil: 'networkidle2'})
         await Promise.all(promises);
     }
+/*
     {
         const targetPage = page;
         const element = await waitForSelectors([["#main-panel > div > div > div > ul > li"]], targetPage, { timeout, visible: true });
         await scrollIntoViewIfNeeded(element, timeout);
         await element.click({ offset: { x: 0, y: 8.6015625} });
     }
+*/
     {
         const targetPage = page;
         await targetPage.waitForTimeout(2000);
