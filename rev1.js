@@ -22,7 +22,7 @@ const Config = {
     width: 1920,
     height: 1080
   },
-  aspectRatio: '16:9'
+  aspectRatio: '16:9',
 };
 
 (async () => {
@@ -61,7 +61,7 @@ const Config = {
         element.scrollIntoView({
           block: 'center',
           inline: 'center',
-          behavior: 'auto',
+          behavior: 'auto'
         });
       });
       await waitForInViewport(element, timeout);
@@ -243,7 +243,7 @@ const Config = {
         await targetPage.mouse.move(925, 585);
         await targetPage.mouse.move(925, 590);
 */
-        await cursor.move(element)
+        await cursor.move(element);
         await element.click({ offset: { x: 125, y: 15} });
     }
     {
@@ -285,8 +285,8 @@ const Config = {
         await targetPage.mouse.move(956, 638);
         await targetPage.mouse.move(960, 643);
 */
-        await cursor.move(element)
-        await targetPage.waitForTimeout(1000)
+        await cursor.move(element);
+        await targetPage.waitForTimeout(1000);
         await element.click({ offset: { x: 150, y: 15} });
     }
     {
