@@ -27,8 +27,8 @@ const Config = {
 
 (async () => {
     const browser = await puppeteer.launch({
-      args: ["--no-sandbox", "--disabled-setupid-sandbox"],
-      slowMo: 40,
+      args: ["--no-sandbox", "--disabled-setupid-sandbox","--enable-font-antialiasing","--force-device-scale-factor=1", "--high-dpi-support=1"],
+      slowMo: 0,
       headless : true
     });
     const page = await browser.newPage();
