@@ -329,7 +329,8 @@ const Config = {
         await targetPage.waitForTimeout(2000);
         const element = await waitForSelectors([["#main-panel > div > div > div > form:nth-child(4) > div:nth-child(1) > div.jenkins-form-item.tr > div.setting-main > input"]], targetPage, { timeout, visible: true });
         await scrollIntoViewIfNeeded(element, timeout);
-        await element.click({ offset: { x: 40, y: 16.0078125} });
+        await cursor.click(element);
+        // await element.click({ offset: { x: 40, y: 16.0078125} });
     }
     {
         // Enter the JCASC URL into the form
