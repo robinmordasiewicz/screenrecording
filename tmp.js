@@ -347,8 +347,8 @@ const Config = {
         //await Promise.all(promises);
     }
     {
-        await page.waitForTimeout(5000);
         const targetPage = page;
+        await targetPage.waitForTimeout(2000);
         const promises = [];
         promises.push(targetPage.waitForNavigation());
         const element = await waitForSelectors([["aria/Dashboard"],["#breadcrumbs > li:nth-child(1) > a"]], targetPage, { timeout, visible: true });
