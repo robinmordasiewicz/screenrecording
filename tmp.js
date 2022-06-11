@@ -30,7 +30,7 @@ const Config = {
     const browser = await puppeteer.launch({
       args: ["--no-sandbox", "--disabled-setupid-sandbox"],
       slowMo: 40,
-      headless : false
+      headless : true
     });
     const page = await browser.newPage();
     const cursor = createCursor(page);
