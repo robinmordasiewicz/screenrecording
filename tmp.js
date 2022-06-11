@@ -285,13 +285,13 @@ const Config = {
         await targetPage.mouse.move(956, 638);
         await targetPage.mouse.move(960, 643);
 */
-        await cursor.move(element)
-        await targetPage.waitForTimeout(1000)
+        await cursor.move(element);
+        await targetPage.waitForTimeout(1000);
         await element.click({ offset: { x: 150, y: 15} });
     }
     {
         const targetPage = page;
-        await targetPage.waitForNavigation({waitUntil: 'networkidle2'})
+        await targetPage.waitForNavigation({waitUntil: 'networkidle2'});
         await targetPage.screenshot({
           path: 'screenshot2.png',
           type: 'png',
