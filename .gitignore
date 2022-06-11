@@ -9,6 +9,7 @@ node_modules/
 .yarn
 .yarnrc
 *.png
+*.jpg
 output.mp4
 package-lock.json
 package.json
