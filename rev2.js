@@ -22,7 +22,7 @@ const Config = {
     width: 1920,
     height: 1080
   },
-  aspectRatio: '16:9',
+  aspectRatio: '16:9'
 };
 
 (async () => {
@@ -35,7 +35,7 @@ const Config = {
     const cursor = createCursor(page);
     await installMouseHelper(page); // Install Mouse Helper
     await page.setViewport({ width: 1920, height: 1080 });
-    const timeout = 50000;
+    const timeout = 10000;
     page.setDefaultTimeout(timeout);
     const recorder = new PuppeteerScreenRecorder(page, Config);
     await recorder.start("output.mp4");
@@ -61,7 +61,7 @@ const Config = {
         element.scrollIntoView({
           block: 'center',
           inline: 'center',
-          behavior: 'auto',
+          behavior: 'auto'
         });
       });
       await waitForInViewport(element, timeout);
@@ -113,7 +113,7 @@ const Config = {
       const comp = {
         '==': (a, b) => a === b,
         '>=': (a, b) => a >= b,
-        '<=': (a, b) => a <= b,
+        '<=': (a, b) => a <= b
       };
       const compFn = comp[operator];
       await waitForFunction(async () => {
