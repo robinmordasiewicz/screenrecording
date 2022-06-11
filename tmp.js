@@ -357,7 +357,8 @@ const Config = {
         promises.push(targetPage.waitForNavigation());
         const element = await waitForSelectors([["aria/Apply new configuration"],["#yui-gen1-button"]], targetPage, { timeout, visible: true });
         await scrollIntoViewIfNeeded(element, timeout);
-        await element.click({ offset: { x: 71, y: 11.0078125} });
+        await cursor.click(element);
+        // await element.click({ offset: { x: 71, y: 11.0078125} });
         await targetPage.waitForNavigation({waitUntil: 'networkidle2'});
         //await Promise.all(promises);
     }
