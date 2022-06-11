@@ -280,15 +280,22 @@ const Config = {
     {
         const targetPage = page;
         await targetPage.waitForNavigation({waitUntil: 'networkidle2'})
-        await targetPage.screenshot({ path: 'screenshot2.png'})
+        await targetPage.screenshot({
+          path: 'screenshot2.png',
+          type: 'png',
+          clip: { x: 0, y: 0, width: 1920, height: 1080 }
+        });
+       // await targetPage.screenshot({ path: 'screenshot2.png'})
     }
     {
+        await page.waitForTimeout(2000);
         const targetPage = page;
         const promises = [];
         promises.push(targetPage.waitForNavigation());
         const element = await waitForSelectors([["#tasks > div:nth-child(6) > span > a > span.task-link-text"]], targetPage, { timeout, visible: true });
         await scrollIntoViewIfNeeded(element, timeout);
         await element.click({ offset: { x: 63, y: 12.5} });
+        await targetPage.waitForNavigation({waitUntil: 'networkidle2'})
         await Promise.all(promises);
     }
     {
@@ -298,6 +305,7 @@ const Config = {
         const element = await waitForSelectors([["#main-panel > section:nth-child(4) > div > div:nth-child(5) > a > dl > dd:nth-child(2)"]], targetPage, { timeout, visible: true });
         await scrollIntoViewIfNeeded(element, timeout);
         await element.click({ offset: { x: 61.671875, y: 7.96875} });
+        await targetPage.waitForNavigation({waitUntil: 'networkidle2'})
         await Promise.all(promises);
     }
     {
@@ -353,7 +361,7 @@ const Config = {
     //save cookies
 //    const cookies = await page.cookies();
 //    await fs.writeFile('./cookies.json', JSON.stringify(cookies, null, 2));
-    await page.waitForTimeout(5000);
+    await page.waitForTimeout(2000);
 
     await recorder.stop();
     await browser.close();
