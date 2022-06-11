@@ -4,7 +4,7 @@ const { PuppeteerScreenRecorder } = require("puppeteer-screen-recorder");
 const Config = {
   followNewTab: true,
   fps: 30,
-  ffmpeg_Path: '/usr/bin/ffmpeg' || null,
+  ffmpeg_Path: '/usr/local/bin/ffmpeg' || null,
   videoFrame: {
     width: 1920,
     height: 1080,

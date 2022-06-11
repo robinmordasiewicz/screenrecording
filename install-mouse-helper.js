@@ -10,7 +10,6 @@ async function installMouseHelper(page) {
       const styleElement = document.createElement('style');
       styleElement.innerHTML = `
         puppeteer-mouse-pointer {
-          background-image: url(pointer.png);
           pointer-events: none;
           position: absolute;
           top: 0;
@@ -18,8 +17,8 @@ async function installMouseHelper(page) {
           left: 0;
           width: 20px;
           height: 20px;
-          background: rgba(0,0,0,.4);
-          border: 1px solid green;
+          background: rgba(0,255,0,0.2);
+          border: 1px solid black;
           border-radius: 10px;
           margin: -10px 0 0 -10px;
           padding: 0;
@@ -27,7 +26,7 @@ async function installMouseHelper(page) {
         }
         puppeteer-mouse-pointer.button-1 {
           transition: none;
-          background: rgba(0,0,0,0.9);
+          background: rgba(255,0,0,0.9);
         }
         puppeteer-mouse-pointer.button-2 {
           transition: none;

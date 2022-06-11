@@ -1,5 +1,4 @@
 FROM node:latest
-LABEL name "puppeteraas"
 
 # See https://crbug.com/795759
 RUN apt-get update && apt-get install -yq libgconf-2-4 gnupg ca-certificates
@@ -45,7 +44,6 @@ RUN npm i
 #RUN yarn add puppeteer-screen-recorder
 #RUN yarn add yargs
 #RUN yarn add delay
-
 
 USER ubuntu
 
