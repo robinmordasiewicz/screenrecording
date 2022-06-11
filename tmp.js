@@ -183,12 +183,15 @@ const Config = {
       }
       throw new Error('Timed out');
     }
+/*
     {
         const targetPage = page;
         await targetPage.setViewport({"width":1920,"height":1080});
     }
+*/
     {
         const targetPage = page;
+        await targetPage.setViewport({"width":1920,"height":1080});
         const promises = [];
         promises.push(targetPage.waitForNavigation());
         //await targetPage.goto("http://robin-jenkins.amer.myedgedemo.com:8080/", {"waitUntil" : "networkidle0"});
