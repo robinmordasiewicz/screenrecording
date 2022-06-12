@@ -219,6 +219,7 @@ const Config = {
         await cursor.click(element);
     }
     {
+        // Enter the password into the login form
         const targetPage = page;
         const element = await waitForSelectors([["aria/Password"],["body > div > div > form > div:nth-child(2) > input"]], targetPage, { timeout, visible: true });
         await scrollIntoViewIfNeeded(element, timeout);
@@ -240,6 +241,7 @@ const Config = {
         });
     }
     {
+        // Click Sign in button on login form
         const targetPage = page;
         const element = await waitForSelectors([["aria/Sign in"],["body > div > div > form > div.submit.formRow > input"]], targetPage, { timeout, visible: true });
         await scrollIntoViewIfNeeded(element, timeout);
