@@ -31,7 +31,7 @@ const Config = {
     const cursor = createCursor(page);
     await installMouseHelper(page); // Install Mouse Helper
     await page.setViewport({ width: 1920, height: 1080 });
-    const timeout = 10000;
+    const timeout = 20000;
     page.setDefaultTimeout(timeout);
     const recorder = new PuppeteerScreenRecorder(page, Config);
     await recorder.start("output.mp4");

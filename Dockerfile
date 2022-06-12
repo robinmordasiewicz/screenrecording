@@ -37,9 +37,14 @@ RUN groupadd -r -g 1000 ubuntu && useradd -r -g ubuntu -u 1000 -G audio,video -m
 
 #COPY local.conf /etc/fonts/local.conf
 WORKDIR /home/ubuntu
-COPY package.json /home/ubuntu
-COPY index.js /home/ubuntu
-RUN npm i
+#COPY package.json /home/ubuntu
+#COPY index.js /home/ubuntu
+#RUN npm i
+RUN npm install --location-global puppeteer
+RUN npm install --location-global puppeteer-screen-recorder
+RUN npm install --location-global yargs
+RUN npm install --location-global delay
+RUN npm install --location-global ghost-cursor
 #RUN yarn add puppeteer
 #RUN yarn add puppeteer-screen-recorder
 #RUN yarn add yargs
