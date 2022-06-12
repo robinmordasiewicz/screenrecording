@@ -3,19 +3,11 @@ const { createCursor } = require("ghost-cursor");
 
 const { PuppeteerScreenRecorder } = require("puppeteer-screen-recorder");
 const {installMouseHelper} = require('./install-mouse-helper');
-const sleep = (milliseconds) => {
-  return new Promise((resolve) => setTimeout(resolve, milliseconds));
-};
-//const TOKEN = process.argv[2];
-//var arg = process.argv.slice(2);
-//var TOKEN=arg[0];
-var TOKEN=(process.argv.slice(2))[0];
-console.log(TOKEN);
-//var TOKEN="lB2TOIHh86yFcVtTn0pRyI";
-if ( !TOKEN ) {
-    throw "Please provide a URL as the first argument";
-}
 
+var TOKEN=(process.argv.slice(2))[0];
+if ( !TOKEN ) {
+    throw "Please provide a Jenkins password as the first argument";
+}
 
 const Config = {
   followNewTab: true,
@@ -186,18 +178,11 @@ const Config = {
       }
       throw new Error('Timed out');
     }
-/*
-    {
-        const targetPage = page;
-        await targetPage.setViewport({"width":1920,"height":1080});
-    }
-*/
     {
         const targetPage = page;
         await targetPage.setViewport({"width":1920,"height":1080});
         const promises = [];
         promises.push(targetPage.waitForNavigation());
-        //await targetPage.goto("http://robin-jenkins.amer.myedgedemo.com:8080/", {"waitUntil" : "networkidle0"});
         await targetPage.goto("http://robin-jenkins.amer.myedgedemo.com:8080/");
         await Promise.all(promises);
     }
@@ -259,8 +244,8 @@ const Config = {
     {
         // Jenkins login screenshot
         const targetPage = page;
-        await page.waitForTimeout(2000);
-        // await targetPage.waitForNavigation({waitUntil: 'networkidle2'});
+        // await page.waitForTimeout(2000);
+        await targetPage.waitForNavigation({waitUntil: 'networkidle2'});
         await targetPage.screenshot({
           path: 'screenshot2.png',
           type: 'png',
@@ -278,6 +263,7 @@ const Config = {
         await Promise.all(promises);
     }
     {
+        // Click Configuration as Code
         const targetPage = page;
         const promises = [];
         promises.push(targetPage.waitForNavigation());
@@ -287,6 +273,7 @@ const Config = {
         await Promise.all(promises);
     }
     {
+        // Click on the URL form field
         const targetPage = page;
         const element = await waitForSelectors([["#main-panel > div > div > div > form:nth-child(4) > div:nth-child(1) > div.jenkins-form-item.tr > div.setting-main > input"]], targetPage, { timeout, visible: true });
         await scrollIntoViewIfNeeded(element, timeout);
