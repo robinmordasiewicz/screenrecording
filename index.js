@@ -179,6 +179,7 @@ const Config = {
       throw new Error('Timed out');
     }
     {
+        // Open URL
         const targetPage = page;
         await targetPage.setViewport({"width":1920,"height":1080});
         const promises = [];
@@ -187,12 +188,14 @@ const Config = {
         await Promise.all(promises);
     }
     {
+        // Click username field on form
         const targetPage = page;
         const element = await waitForSelectors([["aria/Username"],["#j_username"]], targetPage, { timeout, visible: true });
         await scrollIntoViewIfNeeded(element, timeout);
         await cursor.click(element);
     }
     {
+        // Enter admin username in form
         const targetPage = page;
         const element = await waitForSelectors([["aria/Username"],["#j_username"]], targetPage, { timeout, visible: true });
         await scrollIntoViewIfNeeded(element, timeout);
@@ -209,6 +212,7 @@ const Config = {
         }
     }
     {
+        // Click the password field on the form
         const targetPage = page;
         const element = await waitForSelectors([["aria/Password"],["body > div > div > form > div:nth-child(2) > input"]], targetPage, { timeout, visible: true });
         await scrollIntoViewIfNeeded(element, timeout);
@@ -244,8 +248,7 @@ const Config = {
     {
         // Jenkins login screenshot
         const targetPage = page;
-        // await page.waitForTimeout(2000);
-        await targetPage.waitForNavigation({waitUntil: 'networkidle2'});
+        await page.waitForTimeout(2000);
         await targetPage.screenshot({
           path: 'screenshot2.png',
           type: 'png',
