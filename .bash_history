@@ -85,3 +85,6 @@ which ffmpeg
 exit
 which ffmpeg 
 exit
+node docs/index.js
+ls
+exit

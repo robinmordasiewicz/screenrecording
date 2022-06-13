@@ -9,7 +9,7 @@ RUN apt-get update && apt-get install -yq libgconf-2-4 gnupg ca-certificates
 # of Chromium that Puppeteer
 # installs, work.
 RUN apt-get update
-RUN apt-get -y install gconf-service libasound2 libatk1.0-0 libc6 libcairo2 libcups2 libdbus-1-3 libexpat1 libfontconfig1 libgcc1 libgconf-2-4 libgdk-pixbuf2.0-0 libglib2.0-0 libgtk-3-0 libnspr4 libpango-1.0-0 libpangocairo-1.0-0 libstdc++6 libx11-6 libx11-xcb1 libxcb1 libxcomposite1 libxcursor1 libxdamage1 libxext6 libxfixes3 libxi6 libxrandr2 libxrender1 libxss1 libxtst6 ca-certificates fonts-liberation libnss3 lsb-release xdg-utils wget libgbm-dev ffmpeg
+RUN apt-get -y install gconf-service libasound2 libatk1.0-0 libc6 libcairo2 libcups2 libdbus-1-3 libexpat1 libfontconfig1 libgcc1 libgconf-2-4 libgdk-pixbuf2.0-0 libglib2.0-0 libgtk-3-0 libnspr4 libpango-1.0-0 libpangocairo-1.0-0 libstdc++6 libx11-6 libx11-xcb1 libxcb1 libxcomposite1 libxcursor1 libxdamage1 libxext6 libxfixes3 libxi6 libxrandr2 libxrender1 libxss1 libxtst6 ca-certificates fonts-liberation libnss3 lsb-release xdg-utils wget libgbm-dev ffmpeg nodejs
 # libappindicator1
 RUN apt-get update && apt-get install -y wget --no-install-recommends \
     && wget -q -O - https://dl-ssl.google.com/linux/linux_signing_key.pub | apt-key add - \
@@ -40,18 +40,22 @@ WORKDIR /home/ubuntu
 #COPY package.json /home/ubuntu
 #COPY index.js /home/ubuntu
 #RUN npm i
-RUN npm install --location-global puppeteer
-RUN npm install --location-global puppeteer-screen-recorder
-RUN npm install --location-global yargs
-RUN npm install --location-global delay
-RUN npm install --location-global ghost-cursor
-#RUN yarn add puppeteer
-#RUN yarn add puppeteer-screen-recorder
-#RUN yarn add yargs
-#RUN yarn add delay
-#RUN yarn add ghost-cursor
 
-USER ubuntu
+
+RUN npm -g config set user root
+ENV NODE_PATH /usr/local/lib/node_modules/npm/node_modules/:/usr/local/lib/node_modules
+RUN yarn global add npm
+RUN npm install --prefix /usr/local/lib --location-global --unsafe-perm puppeteer
+RUN npm install --prefix /usr/local/lib --location-global --unsafe-perm puppeteer-screen-recorder
+RUN npm install --prefix /usr/local/lib --location-global --unsafe-perm yargs
+RUN npm install --prefix /usr/local/lib --location-global --unsafe-perm delay
+RUN npm install --prefix /usr/local/lib --location-global --unsafe-perm ghost-cursor
+#RUN yarn global add puppeteer
+#RUN yarn global add puppeteer-screen-recorder
+#RUN yarn global add yargs
+#RUN yarn global add delay
+#RUN yarn global add ghost-cursor
+#USER ubuntu
 
 #EXPOSE 8084
 #ENTRYPOINT ["dumb-init", "--"]
