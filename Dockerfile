@@ -76,5 +76,5 @@ RUN npm install --prefix /usr/local/lib --location-global --unsafe-perm ghost-cu
 #RUN yarn global add yargs
 #RUN yarn global add delay
 #RUN yarn global add ghost-cursor
-#USER ubuntu
+USER ubuntu
 
