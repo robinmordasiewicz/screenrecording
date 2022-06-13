@@ -1,15 +1,16 @@
 FROM node:latest
+ENV DEBIAN_FRONTEND noninteractive
 
-# See https://crbug.com/795759
-RUN apt-get update && apt-get install -yq libgconf-2-4 gnupg ca-certificates
-
-# Install latest chrome dev package and fonts to support major 
-# charsets (Chinese, Japanese, Arabic, Hebrew, Thai and a few others)
-# Note: this installs the necessary libs to make the bundled version 
-# of Chromium that Puppeteer
-# installs, work.
 RUN apt-get update
-RUN apt-get -y install gconf-service libasound2 libatk1.0-0 libc6 libcairo2 libcups2 libdbus-1-3 libexpat1 libfontconfig1 libgcc1 libgconf-2-4 libgdk-pixbuf2.0-0 libglib2.0-0 libgtk-3-0 libnspr4 libpango-1.0-0 libpangocairo-1.0-0 libstdc++6 libx11-6 libx11-xcb1 libxcb1 libxcomposite1 libxcursor1 libxdamage1 libxext6 libxfixes3 libxi6 libxrandr2 libxrender1 libxss1 libxtst6 ca-certificates fonts-liberation libnss3 lsb-release xdg-utils wget libgbm-dev ffmpeg nodejs gnupg2 apt-utils
+RUN apt-get -y install gconf-service libasound2 libatk1.0-0 libc6 libcairo2 libcups2 libdbus-1-3 libexpat1 libfontconfig1 libgcc1 libgconf-2-4 libgdk-pixbuf2.0-0 libglib2.0-0 libgtk-3-0 libnspr4 libpango-1.0-0 libpangocairo-1.0-0 libstdc++6 libx11-6 libx11-xcb1 libxcb1 libxcomposite1 libxcursor1 libxdamage1 libxext6 libxfixes3 libxi6 libxrandr2 libxrender1 libxss1 libxtst6 ca-certificates fonts-liberation libnss3 lsb-release xdg-utils wget libgbm-dev ffmpeg nodejs gnupg gnupg2 apt-utils software-properties-common curl
+
+RUN apt-add-repository multiverse
+RUN apt-get update
+RUN echo "ttf-mscorefonts-installer msttcorefonts/accepted-mscorefonts-eula select true" | debconf-set-selections
+RUN apt-get install -y --no-install-recommends fontconfig ttf-mscorefonts-installer
+ADD localfonts.conf /etc/fonts/local.conf
+RUN fc-cache -f -v
+
 # libappindicator1
 RUN apt-get update && apt-get install -y wget --no-install-recommends \
     && wget -q -O - https://dl-ssl.google.com/linux/linux_signing_key.pub | apt-key add - \
@@ -40,7 +41,6 @@ WORKDIR /home/ubuntu
 #COPY package.json /home/ubuntu
 #COPY index.js /home/ubuntu
 #RUN npm i
-
 
 RUN npm -g config set user root
 ENV NODE_PATH /usr/local/lib/node_modules/npm/node_modules/:/usr/local/lib/node_modules
