@@ -1,40 +1,15 @@
-const puppeteer = require('puppeteer');
-const { createCursor } = require("ghost-cursor");
-
-const { PuppeteerScreenRecorder } = require("puppeteer-screen-recorder");
-const {installMouseHelper} = require('./install-mouse-helper');
-
-var TOKEN=(process.argv.slice(2))[0];
-if ( !TOKEN ) {
-    throw "Please provide a Jenkins password as the first argument";
-}
-
-const Config = {
-  followNewTab: true,
-  fps: 30,
-  ffmpeg_Path: 'ffmpeg' || null,
-  videoFrame: {
-    width: 1920,
-    height: 1080
-  },
-  aspectRatio: '16:9'
-};
+const puppeteer = require('puppeteer'); // v13.0.0 or later
 
 (async () => {
     const browser = await puppeteer.launch({
-      args: ["--no-sandbox", "--disabled-setupid-sandbox","--enable-font-antialiasing","--force-device-scale-factor=1", "--high-dpi-support=1", "--font-render-hinting=none","--disable-gpu","--force-color-profile=srgb"],
+      args: ["--no-sandbox", "--disabled-setupid-sandbox","--enable-font-antialiasing", "--high-dpi-support=1", "--font-render-hinting=none","--disable-gpu","--force-color-profile=srgb","--incognito"],
       slowMo: 0,
-      headless : true
+      executablePath: '/Applications/Google Chrome.app/Contents/MacOS/Google Chrome',
+      headless : false
     });
     const page = await browser.newPage();
-    await page.setUserAgent("Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_6) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/85.0.4183.121 Safari/537.36");
-    const cursor = createCursor(page);
-    await installMouseHelper(page); // Install Mouse Helper
-    await page.setViewport({ width: 1920, height: 1080 });
-    const timeout = 20000;
+    const timeout = 5000;
     page.setDefaultTimeout(timeout);
-    const recorder = new PuppeteerScreenRecorder(page, Config);
-    await recorder.start("output.mp4");
 
     async function waitForSelectors(selectors, frame, options) {
       for (const selector of selectors) {
@@ -179,156 +154,90 @@ const Config = {
       throw new Error('Timed out');
     }
     {
-        // Open URL
         const targetPage = page;
-        await targetPage.setViewport({"width":1920,"height":1080});
+        await targetPage.setViewport({"width":1304,"height":912})
+    }
+    {
+        const targetPage = page;
         const promises = [];
         promises.push(targetPage.waitForNavigation());
-        await targetPage.goto("http://robin-jenkins.amer.myedgedemo.com:8080/");
+        await targetPage.goto("about:blank");
         await Promise.all(promises);
     }
     {
-        // Click username field on form
         const targetPage = page;
-        const element = await waitForSelectors([["aria/Username"],["#j_username"]], targetPage, { timeout, visible: true });
-        await scrollIntoViewIfNeeded(element, timeout);
-        await cursor.click(element);
+        const promises = [];
+        promises.push(targetPage.waitForNavigation());
+        await targetPage.goto("https://login.ves.volterra.io/auth/realms/f5-amer-ent-qyyfhhfj/protocol/openid-connect/auth?state=05ac22aa-1bec-4f3f-87af-134893790d75&nonce=22f5b7f4-f9a5-455d-9709-6babff6bf091&response_type=code&client_id=ves-oidc-f5-amer-ent-qyyfhhfj&scope=openid%20profile&redirect_uri=https://f5-amer-ent.console.ves.volterra.io/");
+        await Promise.all(promises);
     }
     {
-        // Enter admin username in form
         const targetPage = page;
-        const element = await waitForSelectors([["aria/Username"],["#j_username"]], targetPage, { timeout, visible: true });
+        const promises = [];
+        promises.push(targetPage.waitForNavigation());
+        const element = await waitForSelectors([["aria/Sign in with Azure","aria/[role=\"generic\"]"],["#new-zocial-azure-oidc > span"]], targetPage, { timeout, visible: true });
+        await scrollIntoViewIfNeeded(element, timeout);
+        await element.click({ offset: { x: 23, y: 14.5} });
+        await Promise.all(promises);
+    }
+    {
+        const targetPage = page;
+        const element = await waitForSelectors([["aria/Enter your email, phone, or Skype."],["#i0116"]], targetPage, { timeout, visible: true });
+        await scrollIntoViewIfNeeded(element, timeout);
+        await element.click({ offset: { x: 28, y: 18.2734375} });
+    }
+    {
+        const targetPage = page;
+        const element = await waitForSelectors([["aria/Enter your email, phone, or Skype."],["#i0116"]], targetPage, { timeout, visible: true });
         await scrollIntoViewIfNeeded(element, timeout);
         const type = await element.evaluate(el => el.type);
         if (["textarea","select-one","text","url","tel","search","password","number","email"].includes(type)) {
-          await element.type("admin");
+          await element.type("r.mordasiewicz@f5.com");
         } else {
           await element.focus();
           await element.evaluate((el, value) => {
             el.value = value;
             el.dispatchEvent(new Event('input', { bubbles: true }));
             el.dispatchEvent(new Event('change', { bubbles: true }));
-          }, "admin");
+          }, "r.mordasiewicz@f5.com");
         }
     }
     {
-        // Click the password field on the form
         const targetPage = page;
-        const element = await waitForSelectors([["aria/Password"],["body > div > div > form > div:nth-child(2) > input"]], targetPage, { timeout, visible: true });
+        const element = await waitForSelectors([["aria/Next"],["#idSIButton9"]], targetPage, { timeout, visible: true });
         await scrollIntoViewIfNeeded(element, timeout);
-        await cursor.click(element);
+        await element.click({ offset: { x: 62, y: 13.2734375} });
     }
     {
-        // Enter the password into the login form
         const targetPage = page;
-        const element = await waitForSelectors([["aria/Password"],["body > div > div > form > div:nth-child(2) > input"]], targetPage, { timeout, visible: true });
+        const element = await waitForSelectors([["aria/Enter the password for r.mordasiewicz@f5.com"],["#i0118"]], targetPage, { timeout, visible: true });
         await scrollIntoViewIfNeeded(element, timeout);
         const type = await element.evaluate(el => el.type);
         if (["textarea","select-one","text","url","tel","search","password","number","email"].includes(type)) {
-          await element.type(TOKEN);
+          await element.type("ponti8-Sajcyn-hogbih");
         } else {
           await element.focus();
           await element.evaluate((el, value) => {
             el.value = value;
             el.dispatchEvent(new Event('input', { bubbles: true }));
             el.dispatchEvent(new Event('change', { bubbles: true }));
-          }, TOKEN);
-        }
-        await targetPage.screenshot({
-          path: 'screenshot.png',
-          type: 'png',
-          clip: { x: 0, y: 0, width: 1920, height: 1080 }
-        });
-    }
-    {
-        // Click Sign in button on login form
-        const targetPage = page;
-        const element = await waitForSelectors([["aria/Sign in"],["body > div > div > form > div.submit.formRow > input"]], targetPage, { timeout, visible: true });
-        await scrollIntoViewIfNeeded(element, timeout);
-        await cursor.click(element);
-    }
-    {
-        // Jenkins login screenshot
-        const targetPage = page;
-        await page.waitForTimeout(2000);
-        await targetPage.screenshot({
-          path: 'screenshot2.png',
-          type: 'png',
-          clip: { x: 0, y: 0, width: 1920, height: 1080 }
-        });
-    }
-    {
-        // Click Manage Jenkins
-        const targetPage = page;
-        const promises = [];
-        promises.push(targetPage.waitForNavigation());
-        const element = await waitForSelectors([["#tasks > div:nth-child(6) > span > a > span.task-link-text"]], targetPage, { timeout, visible: true });
-        await scrollIntoViewIfNeeded(element, timeout);
-        await cursor.click(element);
-        await Promise.all(promises);
-    }
-    {
-        // Click Configuration as Code
-        const targetPage = page;
-        const promises = [];
-        promises.push(targetPage.waitForNavigation());
-        const element = await waitForSelectors([["#main-panel > section:nth-child(4) > div > div:nth-child(5) > a > dl > dd:nth-child(2)"]], targetPage, { timeout, visible: true });
-        await scrollIntoViewIfNeeded(element, timeout);
-        await cursor.click(element);
-        await Promise.all(promises);
-    }
-    {
-        // Click on the URL form field
-        const targetPage = page;
-        const element = await waitForSelectors([["#main-panel > div > div > div > form:nth-child(4) > div:nth-child(1) > div.jenkins-form-item.tr > div.setting-main > input"]], targetPage, { timeout, visible: true });
-        await scrollIntoViewIfNeeded(element, timeout);
-        await cursor.click(element);
-    }
-    {
-        // Enter the JCASC URL into the form
-        const targetPage = page;
-        const element = await waitForSelectors([["#main-panel > div > div > div > form:nth-child(4) > div:nth-child(1) > div.jenkins-form-item.tr > div.setting-main > input"]], targetPage, { timeout, visible: true });
-        await scrollIntoViewIfNeeded(element, timeout);
-        const type = await element.evaluate(el => el.type);
-        if (["textarea","select-one","text","url","tel","search","password","number","email"].includes(type)) {
-          await element.type("https://robinmordasiewicz.github.io/jcasc/jenkins.yaml");
-        } else {
-          await element.focus();
-          await element.evaluate((el, value) => {
-            el.value = value;
-            el.dispatchEvent(new Event('input', { bubbles: true }));
-            el.dispatchEvent(new Event('change', { bubbles: true }));
-          }, "https://robinmordasiewicz.github.io/jcasc/jenkins.yaml");
+          }, "ponti8-Sajcyn-hogbih");
         }
     }
     {
-        // Apply JCASC URL
         const targetPage = page;
-        const promises = [];
-        promises.push(targetPage.waitForNavigation());
-        const element = await waitForSelectors([["aria/Apply new configuration"],["#yui-gen1-button"]], targetPage, { timeout, visible: true });
+        const element = await waitForSelectors([["aria/Sign in"],["#idSIButton9"]], targetPage, { timeout, visible: true });
         await scrollIntoViewIfNeeded(element, timeout);
-        await cursor.click(element);
-        await page.waitForTimeout(3000);
+        await element.click({ offset: { x: 57, y: 17.2734375} });
     }
     {
-        // Navigate back to the Dashboard
         const targetPage = page;
-        await targetPage.waitForTimeout(2000);
-        const promises = [];
-        promises.push(targetPage.waitForNavigation());
-        const element = await waitForSelectors([["aria/Dashboard"],["#breadcrumbs > li:nth-child(1) > a"]], targetPage, { timeout, visible: true });
+        const element = await waitForSelectors([["aria/Yes"],["#idSIButton9"]], targetPage, { timeout: 15000, visible: true });
         await scrollIntoViewIfNeeded(element, timeout);
-        await cursor.click(element);
-        //await Promise.all(promises);
+        await element.click({ offset: { x: 48, y: 8.7734375} });
     }
+/*
 
-    //save cookies
-//    const cookies = await page.cookies();
-//    await fs.writeFile('./cookies.json', JSON.stringify(cookies, null, 2));
-    await page.waitForTimeout(5000);
-
-    await recorder.stop();
     await browser.close();
-
+*/
 })();
