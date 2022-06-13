@@ -1,8 +1,9 @@
-FROM node:latest
+FROM robinhoodis/ubuntu:latest
+USER root
 ENV DEBIAN_FRONTEND noninteractive
 
 RUN apt-get update
-RUN apt-get -y install gconf-service libasound2 libatk1.0-0 libc6 libcairo2 libcups2 libdbus-1-3 libexpat1 libfontconfig1 libgcc1 libgconf-2-4 libgdk-pixbuf2.0-0 libglib2.0-0 libgtk-3-0 libnspr4 libpango-1.0-0 libpangocairo-1.0-0 libstdc++6 libx11-6 libx11-xcb1 libxcb1 libxcomposite1 libxcursor1 libxdamage1 libxext6 libxfixes3 libxi6 libxrandr2 libxrender1 libxss1 libxtst6 ca-certificates fonts-liberation libnss3 lsb-release xdg-utils wget libgbm-dev ffmpeg nodejs gnupg gnupg2 apt-utils software-properties-common curl
+RUN apt-get -y install gconf-service libasound2 libatk1.0-0 libc6 libcairo2 libcups2 libdbus-1-3 libexpat1 libfontconfig1 libgcc1 libgconf-2-4 libgdk-pixbuf2.0-0 libglib2.0-0 libgtk-3-0 libnspr4 libpango-1.0-0 libpangocairo-1.0-0 libstdc++6 libx11-6 libx11-xcb1 libxcb1 libxcomposite1 libxcursor1 libxdamage1 libxext6 libxfixes3 libxi6 libxrandr2 libxrender1 libxss1 libxtst6 ca-certificates fonts-liberation libnss3 lsb-release xdg-utils wget libgbm-dev ffmpeg gnupg gnupg2 apt-utils software-properties-common curl
 
 RUN apt-add-repository multiverse
 RUN apt-get update
@@ -10,6 +11,25 @@ RUN echo "ttf-mscorefonts-installer msttcorefonts/accepted-mscorefonts-eula sele
 RUN apt-get install -y --no-install-recommends fontconfig ttf-mscorefonts-installer
 ADD localfonts.conf /etc/fonts/local.conf
 RUN fc-cache -f -v
+
+RUN curl -sS https://dl.yarnpkg.com/debian/pubkey.gpg | apt-key add -
+RUN echo "deb https://dl.yarnpkg.com/debian/ stable main" > /etc/apt/sources.list.d/yarn.list
+RUN apt-get update
+RUN apt-get install yarn -y
+
+ENV NODE_VERSION=16.5
+ENV NVM_DIR=/root/.nvm
+RUN curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.39.1/install.sh | bash
+RUN . "$NVM_DIR/nvm.sh" \
+    && nvm install ${NODE_VERSION}
+RUN . "$NVM_DIR/nvm.sh" \
+    && nvm use v${NODE_VERSION}
+RUN . "$NVM_DIR/nvm.sh" \
+    && nvm alias default v${NODE_VERSION}
+ENV PATH="/root/.nvm/versions/node/v${NODE_VERSION}/bin/:${PATH}"
+RUN apt-get update \
+    && apt-get install -y --no-install-recommends npm
+RUN npm install -g yarn
 
 # libappindicator1
 RUN apt-get update && apt-get install -y wget --no-install-recommends \
@@ -29,12 +49,12 @@ ENV PUPPETEER_SKIP_CHROMIUM_DOWNLOAD true
 ENV PUPPETEER_EXECUTABLE_PATH /usr/bin/google-chrome
 
 # Add user so we don't need --no-sandbox.
-RUN usermod -u 1001 node && \
-    groupmod -g 1001 node && \
-    chown -R node:node /home/node
+#RUN usermod -u 1001 node && \
+#    groupmod -g 1001 node && \
+#    chown -R node:node /home/node
 
-RUN groupadd -r -g 1000 ubuntu && useradd -r -g ubuntu -u 1000 -G audio,video -m ubuntu \
-    && chown -R ubuntu:ubuntu /home/ubuntu
+#RUN groupadd -r -g 1000 ubuntu && useradd -r -g ubuntu -u 1000 -G audio,video -m ubuntu \
+#    && chown -R ubuntu:ubuntu /home/ubuntu
 
 #COPY local.conf /etc/fonts/local.conf
 WORKDIR /home/ubuntu
@@ -42,14 +62,15 @@ WORKDIR /home/ubuntu
 #COPY index.js /home/ubuntu
 #RUN npm i
 
-RUN npm -g config set user root
 ENV NODE_PATH /usr/local/lib/node_modules/npm/node_modules/:/usr/local/lib/node_modules
-RUN yarn global add npm
+#RUN yarn global add npm
+RUN npm --location-global config set user root
 RUN npm install --prefix /usr/local/lib --location-global --unsafe-perm puppeteer
 RUN npm install --prefix /usr/local/lib --location-global --unsafe-perm puppeteer-screen-recorder
 RUN npm install --prefix /usr/local/lib --location-global --unsafe-perm yargs
 RUN npm install --prefix /usr/local/lib --location-global --unsafe-perm delay
 RUN npm install --prefix /usr/local/lib --location-global --unsafe-perm ghost-cursor
+
 #RUN yarn global add puppeteer
 #RUN yarn global add puppeteer-screen-recorder
 #RUN yarn global add yargs
@@ -57,6 +78,3 @@ RUN npm install --prefix /usr/local/lib --location-global --unsafe-perm ghost-cu
 #RUN yarn global add ghost-cursor
 #USER ubuntu
 
-#EXPOSE 8084
-#ENTRYPOINT ["dumb-init", "--"]
-#CMD ["npm", "run", "start"]
