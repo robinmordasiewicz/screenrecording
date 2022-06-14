@@ -1,6 +1,14 @@
 FROM robinhoodis/ubuntu:latest
 USER root
 
+# Update base image
+RUN apt-get -qq update && \
+  apt-get -qq dist-upgrade
+
+# Add the partner repository
+RUN apt-get -y -qq install software-properties-common && \
+  apt-add-repository "deb http://archive.canonical.com/ubuntu $(lsb_release -sc) partner"
+
 ENV DISPLAY=:99
 ENV DISPLAY_CONFIGURATION=1920x1080x30
 ENV DBUS_SESSION_BUS_ADDRESS=/dev/null
@@ -19,7 +27,9 @@ RUN apt-add-repository multiverse
 RUN apt-get update
 RUN echo "ttf-mscorefonts-installer msttcorefonts/accepted-mscorefonts-eula select true" | debconf-set-selections
 RUN apt-get install -y --no-install-recommends fontconfig ttf-mscorefonts-installer
-ADD localfonts.conf /etc/fonts/local.conf
+
+#ADD localfonts.conf /etc/fonts/local.conf
+COPY fonts.conf /etc/fonts/local.conf
 RUN fc-cache -f -v
 
 RUN curl -sS https://dl.yarnpkg.com/debian/pubkey.gpg | apt-key add -
@@ -68,9 +78,6 @@ RUN chmod +x /usr/local/bin/dumb-init
 
 ENV PUPPETEER_SKIP_CHROMIUM_DOWNLOAD true
 ENV PUPPETEER_EXECUTABLE_PATH /usr/bin/google-chrome
-
-#RUN groupadd -r -g 1000 ubuntu && useradd -r -g ubuntu -u 1000 -G audio,video -m ubuntu \
-#    && chown -R ubuntu:ubuntu /home/ubuntu
 
 #COPY local.conf /etc/fonts/local.conf
 WORKDIR /home/ubuntu

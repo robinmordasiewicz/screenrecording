@@ -96,3 +96,5 @@ xvfb-run --listen-tcp --server-num 44 --auth-file /tmp/xvfb.auth -s "-ac -screen
 bg
 ffmpeg -f x11grab -video_size 1920x1080 -i 127.0.0.1:44 -codec:v libx264 -r 12 behat_1.mp4
 exit
+ls
+exit
