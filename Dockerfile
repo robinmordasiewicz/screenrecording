@@ -69,11 +69,6 @@ RUN chmod +x /usr/local/bin/dumb-init
 ENV PUPPETEER_SKIP_CHROMIUM_DOWNLOAD true
 ENV PUPPETEER_EXECUTABLE_PATH /usr/bin/google-chrome
 
-# Add user so we don't need --no-sandbox.
-#RUN usermod -u 1001 node && \
-#    groupmod -g 1001 node && \
-#    chown -R node:node /home/node
-
 #RUN groupadd -r -g 1000 ubuntu && useradd -r -g ubuntu -u 1000 -G audio,video -m ubuntu \
 #    && chown -R ubuntu:ubuntu /home/ubuntu
 
