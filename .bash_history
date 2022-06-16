@@ -98,3 +98,6 @@ ffmpeg -f x11grab -video_size 1920x1080 -i 127.0.0.1:44 -codec:v libx264 -r 12 b
 exit
 ls
 exit
+sudo su -
+exit
+exit
