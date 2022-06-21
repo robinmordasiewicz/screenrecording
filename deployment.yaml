@@ -1,0 +1,15 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: puppeteer
+  labels:
+    app: puppeteer
+spec:
+  containers:
+  - image: robinhoodis/puppeteer:0.0.9
+    command:
+      - "sleep"
+      - "604800"
+    imagePullPolicy: Always
+    name: puppeteer
+  restartPolicy: Always
