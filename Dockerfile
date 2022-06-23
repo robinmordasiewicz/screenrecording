@@ -91,7 +91,7 @@ ENV NODE_PATH /usr/local/lib/node_modules/npm/node_modules/:/usr/local/lib/node_
 RUN npm --location-global config set user root
 RUN npm install --prefix /usr/local/lib --location-global --unsafe-perm puppeteer
 RUN npm install --prefix /usr/local/lib --location-global --unsafe-perm puppeteer-screen-recorder
-RUN rpm install --prefix /usr/local/lib --location-global --unsafe-perm puppeteer-autoscroll-down
+RUN npm install --prefix /usr/local/lib --location-global --unsafe-perm puppeteer-autoscroll-down
 RUN npm install --prefix /usr/local/lib --location-global --unsafe-perm yargs
 RUN npm install --prefix /usr/local/lib --location-global --unsafe-perm delay
 RUN npm install --prefix /usr/local/lib --location-global --unsafe-perm ghost-cursor
