@@ -39,6 +39,10 @@ ENV GEOMETRY 1664x936
 RUN pip3 install selenium
 RUN pip3 install ffmpeg-python
 
+RUN groupadd -g 1000 ubuntu
+RUN useradd -rm -d /home/ubuntu -s /bin/bash -g 1000 -G sudo -u 1000 ubuntu
+RUN chown -R ubuntu:ubuntu /home/ubuntu
+
 RUN usermod -a -G sudo ubuntu \
   && echo 'ALL ALL = (ALL) NOPASSWD: ALL' >> /etc/sudoers \
   && echo 'ubuntu:secret' | chpasswd
