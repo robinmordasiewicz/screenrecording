@@ -27,6 +27,7 @@ RUN usermod -a -G sudo ubuntu \
   && echo 'ubuntu:secret' | chpasswd
 
 # Copy the fonts into place instead
+COPY Fonts /usr/share/fonts/
 #RUN apt-add-repository multiverse
 #RUN apt-get update
 #RUN echo "ttf-mscorefonts-installer msttcorefonts/accepted-mscorefonts-eula select true" | debconf-set-selections
