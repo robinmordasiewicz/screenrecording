@@ -1,5 +1,5 @@
 #FROM robinhoodis/ubuntu:latest
-FROM phusion/baseimage:latest
+FROM phusion/baseimage:jammy-1.0.0
 USER root
 
 # Update base image
