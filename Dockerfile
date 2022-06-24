@@ -47,7 +47,7 @@ RUN apt-get update
 RUN apt-get -y install powerline
 
 # Copy the fonts into place instead
-COPY Fonts /usr/share/fonts/
+COPY Fonts /usr/share/fonts/windows
 #RUN apt-add-repository multiverse
 #RUN apt-get update
 #RUN echo "ttf-mscorefonts-installer msttcorefonts/accepted-mscorefonts-eula select true" | debconf-set-selections
