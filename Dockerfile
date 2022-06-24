@@ -23,7 +23,7 @@ RUN curl --silent --location https://deb.nodesource.com/setup_18.x | bash - && \
   npm install -g npm@latest
 
 RUN apt-get update
-RUN apt-get -y install gconf-service libasound2 libatk1.0-0 libc6 libcairo2 libcups2 libdbus-1-3 libexpat1 libfontconfig1 libgcc1 libgconf-2-4 libgdk-pixbuf2.0-0 libglib2.0-0 libgtk-3-0 libnspr4 libpango-1.0-0 libpangocairo-1.0-0 libstdc++6 libx11-6 libx11-xcb1 libxcb1 libxcomposite1 libxcursor1 libxdamage1 libxext6 libxfixes3 libxi6 libxrandr2 libxrender1 libxss1 libxtst6 ca-certificates fonts-liberation libnss3 lsb-release xdg-utils wget libgbm-dev ffmpeg gnupg gnupg2 apt-utils software-properties-common curl xvfb x11vnc fluxbox wmctrl tmux default-jre sudo unzip python3 python3-pip x11-utils gnumeric xserver-xephyr tigervnc-standalone-server bc icewm xorg xauth xinit xfonts-base xterm tigervnc-standalone-server tigervnc-common pulseaudio-utils pavucontrol xdotool fonts-noto
+RUN apt-get -y install gconf-service libasound2 libatk1.0-0 libc6 libcairo2 libcups2 libdbus-1-3 libexpat1 libfontconfig1 libgcc1 libgconf-2-4 libgdk-pixbuf2.0-0 libglib2.0-0 libgtk-3-0 libnspr4 libpango-1.0-0 libpangocairo-1.0-0 libstdc++6 libx11-6 libx11-xcb1 libxcb1 libxcomposite1 libxcursor1 libxdamage1 libxext6 libxfixes3 libxi6 libxrandr2 libxrender1 libxss1 libxtst6 ca-certificates fonts-liberation libnss3 lsb-release xdg-utils wget libgbm-dev ffmpeg gnupg gnupg2 apt-utils software-properties-common curl xvfb x11vnc fluxbox wmctrl tmux default-jre sudo unzip python3 python3-pip x11-utils gnumeric xserver-xephyr tigervnc-standalone-server bc icewm xorg xauth xinit xfonts-base xterm tigervnc-standalone-server tigervnc-common pulseaudio-utils pavucontrol xdotool fonts-noto sakura
 
 #ENV NODE_VERSION=16.5
 #ENV NVM_DIR=/root/.nvm
@@ -42,6 +42,8 @@ ENV GEOMETRY 1664x936
 
 RUN pip3 install selenium
 RUN pip3 install ffmpeg-python
+# use either pip3 or apt-get to install powerline
+#RUN pip3 install powerline-status
 
 RUN groupadd -g 1000 ubuntu
 RUN useradd -rm -d /home/ubuntu -s /bin/bash -g 1000 -G sudo -u 1000 ubuntu
