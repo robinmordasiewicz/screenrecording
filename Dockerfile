@@ -17,10 +17,23 @@ ENV DEBIAN_FRONTEND noninteractive
 RUN apt-get update
 RUN apt-get -y install gconf-service libasound2 libatk1.0-0 libc6 libcairo2 libcups2 libdbus-1-3 libexpat1 libfontconfig1 libgcc1 libgconf-2-4 libgdk-pixbuf2.0-0 libglib2.0-0 libgtk-3-0 libnspr4 libpango-1.0-0 libpangocairo-1.0-0 libstdc++6 libx11-6 libx11-xcb1 libxcb1 libxcomposite1 libxcursor1 libxdamage1 libxext6 libxfixes3 libxi6 libxrandr2 libxrender1 libxss1 libxtst6 ca-certificates fonts-liberation libnss3 lsb-release xdg-utils wget libgbm-dev ffmpeg gnupg gnupg2 apt-utils software-properties-common curl xvfb x11vnc fluxbox wmctrl tmux default-jre sudo unzip python3 python3-pip x11-utils gnumeric xserver-xephyr tigervnc-standalone-server bc icewm xorg xauth xinit xfonts-base xterm tigervnc-standalone-server tigervnc-common pulseaudio-utils pavucontrol xdotool fonts-noto
 
+ENV NODE_VERSION=16.5
+ENV NVM_DIR=/root/.nvm
+RUN curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.39.1/install.sh | bash
+RUN . "$NVM_DIR/nvm.sh" \
+    && nvm install ${NODE_VERSION}
+RUN . "$NVM_DIR/nvm.sh" \
+    && nvm use v${NODE_VERSION}
+RUN . "$NVM_DIR/nvm.sh" \
+    && nvm alias default v${NODE_VERSION}
+ENV PATH="/root/.nvm/versions/node/v${NODE_VERSION}/bin/:${PATH}"
+RUN apt-get update \
+    && apt-get install -y --no-install-recommends npm
+RUN npm install -g yarn
 ENV GEOMETRY 1664x936
 
 RUN pip3 install selenium
-RUN pip install ffmpeg-python
+RUN pip3 install ffmpeg-python
 
 RUN usermod -a -G sudo ubuntu \
   && echo 'ALL ALL = (ALL) NOPASSWD: ALL' >> /etc/sudoers \
@@ -42,19 +55,6 @@ RUN echo "deb https://dl.yarnpkg.com/debian/ stable main" > /etc/apt/sources.lis
 RUN apt-get update
 RUN apt-get install yarn -y
 
-ENV NODE_VERSION=16.5
-ENV NVM_DIR=/root/.nvm
-RUN curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.39.1/install.sh | bash
-RUN . "$NVM_DIR/nvm.sh" \
-    && nvm install ${NODE_VERSION}
-RUN . "$NVM_DIR/nvm.sh" \
-    && nvm use v${NODE_VERSION}
-RUN . "$NVM_DIR/nvm.sh" \
-    && nvm alias default v${NODE_VERSION}
-ENV PATH="/root/.nvm/versions/node/v${NODE_VERSION}/bin/:${PATH}"
-RUN apt-get update \
-    && apt-get install -y --no-install-recommends npm
-RUN npm install -g yarn
 
 # libappindicator1
 RUN apt-get update && apt-get install -y wget --no-install-recommends \
