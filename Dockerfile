@@ -1,5 +1,5 @@
 #FROM robinhoodis/ubuntu:latest
-FROM phusion/baseimage:focal-1.2.0
+FROM phusion/baseimage:latest
 USER root
 
 # Update base image
