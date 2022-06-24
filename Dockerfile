@@ -1,5 +1,6 @@
 #FROM robinhoodis/ubuntu:latest
-FROM phusion/baseimage:jammy-1.0.0
+#FROM phusion/baseimage:jammy-1.0.0
+FROM phusion/baseimage:focal-1.2.0
 USER root
 
 # Update base image
@@ -15,24 +16,27 @@ ENV DISPLAY_CONFIGURATION=1664x936x30
 ENV DBUS_SESSION_BUS_ADDRESS=/dev/null
 ENV DEBIAN_FRONTEND noninteractive
 
+RUN curl -fsSL https://deb.nodesource.com/setup_18.x | bash -
+# Install NodeJS
+RUN curl --silent --location https://deb.nodesource.com/setup_18.x | bash - && \
+  apt-get -qq install nodejs && \
+  npm install -g npm@latest
+
 RUN apt-get update
-RUN apt-get -y install gconf-service libasound2 libatk1.0-0 libc6 libcairo2 libcups2 libdbus-1-3 libexpat1 libfontconfig1 libgcc1 libgconf-2-4 libgdk-pixbuf2.0-0 libglib2.0-0 libgtk-3-0 libnspr4 libpango-1.0-0 libpangocairo-1.0-0 libstdc++6 libx11-6 libx11-xcb1 libxcb1 libxcomposite1 libxcursor1 libxdamage1 libxext6 libxfixes3 libxi6 libxrandr2 libxrender1 libxss1 libxtst6 ca-certificates fonts-liberation libnss3 lsb-release xdg-utils wget libgbm-dev ffmpeg gnupg gnupg2 apt-utils software-properties-common curl xvfb x11vnc fluxbox wmctrl tmux default-jre sudo unzip python3 python3-pip x11-utils gnumeric xserver-xephyr tigervnc-standalone-server bc icewm xorg xauth xinit xfonts-base xterm tigervnc-standalone-server tigervnc-common pulseaudio-utils pavucontrol xdotool fonts-noto fonts-powerline
+RUN apt-get -y install gconf-service libasound2 libatk1.0-0 libc6 libcairo2 libcups2 libdbus-1-3 libexpat1 libfontconfig1 libgcc1 libgconf-2-4 libgdk-pixbuf2.0-0 libglib2.0-0 libgtk-3-0 libnspr4 libpango-1.0-0 libpangocairo-1.0-0 libstdc++6 libx11-6 libx11-xcb1 libxcb1 libxcomposite1 libxcursor1 libxdamage1 libxext6 libxfixes3 libxi6 libxrandr2 libxrender1 libxss1 libxtst6 ca-certificates fonts-liberation libnss3 lsb-release xdg-utils wget libgbm-dev ffmpeg gnupg gnupg2 apt-utils software-properties-common curl xvfb x11vnc fluxbox wmctrl tmux default-jre sudo unzip python3 python3-pip x11-utils gnumeric xserver-xephyr tigervnc-standalone-server bc icewm xorg xauth xinit xfonts-base xterm tigervnc-standalone-server tigervnc-common pulseaudio-utils pavucontrol xdotool fonts-noto
 
-RUN apt-get -y remove nodejs npm
-RUN apt-get purge nodejs
-
-ENV NODE_VERSION=16.5
-ENV NVM_DIR=/root/.nvm
-RUN curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.39.1/install.sh | bash
-RUN . "$NVM_DIR/nvm.sh" \
-    && nvm install ${NODE_VERSION}
-RUN . "$NVM_DIR/nvm.sh" \
-    && nvm use v${NODE_VERSION}
-RUN . "$NVM_DIR/nvm.sh" \
-    && nvm alias default v${NODE_VERSION}
-ENV PATH="/root/.nvm/versions/node/v${NODE_VERSION}/bin/:${PATH}"
-RUN apt-get update \
-    && apt-get install -y --no-install-recommends npm
+#ENV NODE_VERSION=16.5
+#ENV NVM_DIR=/root/.nvm
+#RUN curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.39.1/install.sh | bash
+#RUN . "$NVM_DIR/nvm.sh" \
+#    && nvm install ${NODE_VERSION}
+#RUN . "$NVM_DIR/nvm.sh" \
+#    && nvm use v${NODE_VERSION}
+#RUN . "$NVM_DIR/nvm.sh" \
+#    && nvm alias default v${NODE_VERSION}
+#ENV PATH="/root/.nvm/versions/node/v${NODE_VERSION}/bin/:${PATH}"
+#RUN apt-get update \
+#    && apt-get install -y --no-install-recommends npm
 RUN npm install -g yarn
 ENV GEOMETRY 1664x936
 
@@ -49,7 +53,7 @@ RUN usermod -a -G sudo ubuntu \
 
 RUN add-apt-repository universe
 RUN apt-get update
-RUN apt-get -y install powerline
+RUN apt-get -y install powerline fonts-powerline
 
 # Copy the fonts into place instead
 COPY Fonts /usr/share/fonts/windows
