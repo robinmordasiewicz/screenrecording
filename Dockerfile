@@ -124,6 +124,9 @@ RUN npm install --prefix /usr/local/lib --location-global --unsafe-perm ghost-cu
 #RUN yarn global add delay
 #RUN yarn global add ghost-cursor
 
+RUN apt-get -y install snapd
+RUN snap install postman
+
 RUN echo '[daemon]' > /etc/gdm3/custom.conf \
     & echo 'WaylandEnable=false' >> /etc/gdm3/custom.conf \
     & echo 'AutomaticLoginEnable = true' >> /etc/gdm3/custom.conf \
