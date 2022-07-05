@@ -128,14 +128,15 @@ RUN apt-get -y install snapd
 RUN snap install postman
 
 RUN echo '[daemon]' > /etc/gdm3/custom.conf \
-    & echo 'WaylandEnable=false' >> /etc/gdm3/custom.conf \
-    & echo 'AutomaticLoginEnable = true' >> /etc/gdm3/custom.conf \
-    & echo 'AutomaticLogin = ubuntu' >> /etc/gdm3/custom.conf \
-    & echo '[security]' >> /etc/gdm3/custom.conf \
-    & echo '[xdmcp]' >> /etc/gdm3/custom.conf \
-    & echo '[chooser]' >> /etc/gdm3/custom.conf \
-    & echo '[debug]' >> /etc/gdm3/custom.conf \
-    & echo 'Enable=false' >> /etc/gdm3/custom.conf
+    && echo 'WaylandEnable=false' >> /etc/gdm3/custom.conf \
+    && echo 'DefaultSession=gnome-xorg.desktop' >> /etc/gdm3/custom.conf \
+    && echo 'AutomaticLoginEnable = true' >> /etc/gdm3/custom.conf \
+    && echo 'AutomaticLogin = ubuntu' >> /etc/gdm3/custom.conf \
+    && echo '[security]' >> /etc/gdm3/custom.conf \
+    && echo '[xdmcp]' >> /etc/gdm3/custom.conf \
+    && echo '[chooser]' >> /etc/gdm3/custom.conf \
+    && echo '[debug]' >> /etc/gdm3/custom.conf \
+    && echo 'Enable=false' >> /etc/gdm3/custom.conf
 
 USER ubuntu
 
