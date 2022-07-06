@@ -38,7 +38,7 @@ RUN apt-get -y install gconf-service libasound2 libatk1.0-0 libc6 libcairo2 libc
 #RUN apt-get update \
 #    && apt-get install -y --no-install-recommends npm
 RUN npm install -g yarn
-ENV GEOMETRY 1664x936
+ENV GEOMETRY='1664x936'
 
 RUN pip3 install selenium
 RUN pip3 install ffmpeg-python
@@ -77,10 +77,7 @@ RUN apt-get update && apt-get install -y wget --no-install-recommends \
     && wget -q -O - https://dl-ssl.google.com/linux/linux_signing_key.pub | apt-key add - \
     && sh -c 'echo "deb [arch=amd64] http://dl.google.com/linux/chrome/deb/ stable main" >> /etc/apt/sources.list.d/google.list' \
     && apt-get update \
-    && apt-get install -y google-chrome-unstable fonts-ipafont-gothic fonts-wqy-zenhei fonts-thai-tlwg fonts-kacst fonts-freefont-ttf \
-      --no-install-recommends \
-    && rm -rf /var/lib/apt/lists/* \
-    && rm -rf /src/*.deb
+    && apt-get install -y google-chrome-unstable fonts-ipafont-gothic fonts-wqy-zenhei fonts-thai-tlwg fonts-kacst fonts-freefont-ttf --no-install-recommends
 
 #==================
 # Chrome webdriver
@@ -151,6 +148,8 @@ RUN \
 ###########
 ### Postman
 ###########
+ENV DISABLE_WAYLAND=1
+ENV POSTMAN_DISABLE_GPU=true
 RUN wget -qO- https://dl.pstmn.io/download/latest/linux64 | tar -xz -C "/opt" \
     && ln -s /opt/Postman/Postman /usr/local/bin/postman
 
