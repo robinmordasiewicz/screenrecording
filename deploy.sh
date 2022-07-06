@@ -1,8 +1,8 @@
 #!/bin/bash
 #
 
-echo "deploy puppeteer container"
+echo "deploy screenrecording container"
 
 kubectl apply -f deployment.yaml --namespace r-mordasiewicz
 
-echo "kubectl exec --namespace r-mordasiewicz -it puppeteer -c puppeteer -- /bin/bash"
+echo "kubectl exec --namespace r-mordasiewicz -it screenrecording -c screenrecording -- /bin/bash"

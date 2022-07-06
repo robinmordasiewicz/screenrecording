@@ -64,7 +64,7 @@ pipeline {
         beforeAgent true
         expression {
           container('ubuntu') {
-            sh(returnStatus: true, script: 'skopeo inspect docker://docker.io/robinhoodis/puppeteer:`cat VERSION`') == 1
+            sh(returnStatus: true, script: 'skopeo inspect docker://docker.io/robinhoodis/screenrecording:`cat VERSION`') == 1
           }
         }
       }
@@ -74,8 +74,8 @@ pipeline {
             sh ''' 
             /kaniko/executor --dockerfile=Dockerfile \
                              --context=`pwd` \
-                             --destination=robinhoodis/puppeteer:`cat VERSION` \
-                             --destination=robinhoodis/puppeteer:latest \
+                             --destination=robinhoodis/screenrecording:`cat VERSION` \
+                             --destination=robinhoodis/screenrecording:latest \
                              --cache=true
             '''
           }
