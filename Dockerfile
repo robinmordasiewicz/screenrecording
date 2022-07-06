@@ -23,7 +23,7 @@ RUN curl --silent --location https://deb.nodesource.com/setup_18.x | bash - && \
   npm install -g npm@latest
 
 RUN apt-get update
-RUN apt-get -y install gconf-service libasound2 libatk1.0-0 libc6 libcairo2 libcups2 libdbus-1-3 libexpat1 libfontconfig1 libgcc1 libgconf-2-4 libgdk-pixbuf2.0-0 libglib2.0-0 libgtk-3-0 libnspr4 libpango-1.0-0 libpangocairo-1.0-0 libstdc++6 libx11-6 libx11-xcb1 libxcb1 libxcomposite1 libxcursor1 libxdamage1 libxext6 libxfixes3 libxi6 libxrandr2 libxrender1 libxss1 libxtst6 ca-certificates fonts-liberation libnss3 lsb-release xdg-utils wget libgbm-dev ffmpeg gnupg gnupg2 apt-utils software-properties-common curl xvfb x11vnc fluxbox wmctrl tmux default-jre sudo unzip python3 python3-pip x11-utils gnumeric xserver-xephyr tigervnc-standalone-server bc icewm xorg xauth xinit xfonts-base xterm tigervnc-standalone-server tigervnc-common pulseaudio-utils pavucontrol xdotool fonts-noto sakura libvte-dev ubuntu-gnome-desktop
+RUN apt-get -y install gconf-service libasound2 libatk1.0-0 libc6 libcairo2 libcups2 libdbus-1-3 libexpat1 libfontconfig1 libgcc1 libgconf-2-4 libgdk-pixbuf2.0-0 libglib2.0-0 libgtk-3-0 libnspr4 libpango-1.0-0 libpangocairo-1.0-0 libstdc++6 libx11-6 libx11-xcb1 libxcb1 libxcomposite1 libxcursor1 libxdamage1 libxext6 libxfixes3 libxi6 libxrandr2 libxrender1 libxss1 libxtst6 ca-certificates fonts-liberation libnss3 lsb-release xdg-utils wget libgbm-dev ffmpeg gnupg gnupg2 apt-utils software-properties-common curl xvfb x11vnc fluxbox wmctrl tmux default-jre sudo unzip python3 python3-pip x11-utils gnumeric xserver-xephyr tigervnc-standalone-server bc icewm xorg xauth xinit xfonts-base xterm tigervnc-standalone-server tigervnc-common pulseaudio-utils pavucontrol xdotool fonts-noto sakura libvte-dev ubuntu-gnome-desktop jq gpg libasound2 libxshmfence1 apt-transport-https psmisc dbus-x11 xauth xinit x11-xserver-utils xdg-utils mousepad libdrm2 libgbm1 libxcb-dri3-0 
 
 #ENV NODE_VERSION=16.5
 #ENV NVM_DIR=/root/.nvm
@@ -122,9 +122,6 @@ RUN npm install --prefix /usr/local/lib --location-global --unsafe-perm ghost-cu
 #RUN yarn global add delay
 #RUN yarn global add ghost-cursor
 
-RUN apt-get -y install snapd
-RUN snap install postman
-
 RUN echo '[daemon]' > /etc/gdm3/custom.conf \
     && echo 'WaylandEnable=false' >> /etc/gdm3/custom.conf \
     && echo 'DefaultSession=gnome-xorg.desktop' >> /etc/gdm3/custom.conf \
@@ -135,6 +132,27 @@ RUN echo '[daemon]' > /etc/gdm3/custom.conf \
     && echo '[chooser]' >> /etc/gdm3/custom.conf \
     && echo '[debug]' >> /etc/gdm3/custom.conf \
     && echo 'Enable=false' >> /etc/gdm3/custom.conf
+
+################
+### stage_vscode
+################
+
+ENV \
+    DONT_PROMPT_WSL_INSTALL=1 \
+    FEATURES_VSCODE=1
+
+RUN \
+    curl https://packages.microsoft.com/keys/microsoft.asc | gpg --dearmor > packages.microsoft.gpg \
+    && install -o root -g root -m 644 packages.microsoft.gpg /etc/apt/trusted.gpg.d/ \
+    && sh -c 'echo "deb [arch=amd64] https://packages.microsoft.com/repos/code stable main" > /etc/apt/sources.list.d/vscode.list' \
+    && apt-get update \
+    && DEBIAN_FRONTEND=noninteractive apt-get install -y code
+
+###########
+### Postman
+###########
+RUN wget -qO- https://dl.pstmn.io/download/latest/linux64 | tar -xz -C "/opt" \
+    && ln -s /opt/Postman/Postman /usr/local/bin/postman
 
 USER ubuntu
 
